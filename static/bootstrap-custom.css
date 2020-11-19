@@ -1,0 +1,262 @@
+/* CSS used here will be applied after bootstrap.css */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
+
+body{ margin-top:50px;}
+.nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
+.tab-pane .list-group-item:first-child {border-top-right-radius: 0px;border-top-left-radius: 0px;}
+.tab-pane .list-group-item:last-child {border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;}
+.tab-pane .list-group .checkbox { display: inline-block;margin: 0px; }
+.tab-pane .list-group input[type="checkbox"]{ margin-top: 2px; }
+.tab-pane .list-group .glyphicon { margin-right:5px; }
+.tab-pane .list-group .glyphicon:hover { color:#FFBC00; }
+a.list-group-item.read { color: #222;background-color: #F3F3F3; }
+hr { margin-top: 5px;margin-bottom: 10px; }
+.nav-pills>li>a {padding: 5px 10px;}
+
+.progress-sm {
+  height: 10px;
+}
+
+.ad { padding: 5px;background: #F5F5F5;color: #222;font-size: 80%;border: 1px solid #E5E5E5; }
+.ad a.title {color: #15C;text-decoration: none;font-weight: bold;font-size: 110%;}
+.ad a.url {color: #093;text-decoration: none;}
+
+.unread {
+ font-weight:800;
+}
+
+/* Unstrap theme for Bootstrap 3.1
+   author:Bootply
+   license:GPL
+*/
+body {
+  font-family:Verdana, Geneva, sans-serif;
+  color:#555;
+  font-weight:200;
+  font-size:13px;
+  background-color:#f2f2f2;
+}
+a, .help-block  {
+  color:#262626;
+}
+a:hover {
+  color:#333;	
+}
+h1,h2,h3,h4{
+  color:#666;
+  font-weight:light;
+}
+p.lead {
+  font-family:arial, sans-serif;
+  color:#777;
+  font-size:16px;
+  font-weight:700;
+}
+.navbar-nav>li>a,.navbar-brand,.navbar-text,.navbar-btn {
+  padding:20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.navbar-inverse {
+  background: #444;
+  border-color: #333;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+  color: #eee;
+  background-color: #111;
+}
+.well{
+  background: #f8f8f8;
+  color:#777;
+  border-radius:0;
+  box-shadow:0 0 0;
+}
+.well,.page-header,input,.form-control,.table-bordered,.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td,hr{
+  border-color: #f0f0f0;
+}
+.table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
+  background-color: #fafafa;
+}
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+  background-color: #f7f7f7;
+}
+.table>thead>tr>th {
+  border-bottom-width: 1px;
+}
+.table>thead>tr td {
+  font-weight:800;
+  color:#454545; 
+}    
+.form-control {
+  background: #fdfdfd;
+  color:#444;
+  border-radius:2px;
+  border-color:#ddd;
+  box-shadow:#ddd 2px 2px 0px;
+}
+.form-control:active,.form-control:focus {
+  box-shadow:#bbb 2px 2px 0px;
+  border-color:#ccc;
+}
+[class*='btn-']:hover {
+  border-color: transparent;
+} 
+.btn,.progress,
+.panel,.panel-heading,
+.list-group-item:first-child,.list-group-item:last-child,
+.nav-tabs>li>a,
+.navbar, .dropdown-menu {
+  border-radius:0;
+}
+.nav-pills>li>a {border-radius:2px;}
+.panel-primary>.panel-heading {
+  background-color:#006890;
+}
+.list-group-item {
+  border-color:#f6f6f6;
+  color:#666;
+}
+a.list-group-item.active, .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #5bc0de; 
+}
+.badge {
+  border-radius:2px;
+  font-size:10px;
+}
+.btn,.btn-default,.btn.active,.btn.disabled {
+  border-width:0;
+  box-shadow:#bbb 1px 1px 0px;
+} 
+[class*='-primary']:not([class*='text-']){
+  background-color:#008cba;
+  border-width:0;
+  color:#f0f0f0;
+}
+[class*='-default']:not([class*='text-']){
+  background-color:#f2f2f2;
+  border-width:0;
+  color:#888;
+}
+[class*='-info']:not([class*='text-']){
+  background-color:#5bc0de;
+  border-width:0;
+  color:#fff;
+}
+[class*='-warning']:not([class*='text-']){
+  background-color:#e99002;
+  border-width:0;
+  color:#eee;
+}
+[class*='-danger']:not([class*='text-']){
+  background-color:#dc2c0f;
+  border-width:0;
+  color:#fff;
+}
+[class*='-sucess']:not([class*='text-']){
+  background-color:#33bb33;
+  border-width:0;
+  color:#ffeeff;
+}
+[class*='-primary']:hover,[class*='primary']:focus {
+   background-color:#0079a1;
+   border-width:0;
+   color:#fff;
+}
+[class*='-default']:hover,[class*='-default']:active {
+   background-color:#eeeeee;
+   border-width:0;
+   color:#444;
+}
+[class*='-info']:hover,[class*='-info']:active {
+   background-color:#62a6df;
+   color:#fff;
+}
+[class*='-danger']:hover,[class*='-danger']:active {
+   background-color:#b1240c;
+   color:#fff;
+}
+[class*='-success']:hover,[class*='-success']:active {
+   background-color:#6cd347;
+   color:#fff;
+}
+.btn-group>.btn:not(:first-child) {
+   margin-left: 1px;
+}
+.has-warning,.has-error,.has-success {
+   opacity:.6;
+   color:#000;
+}
+.pagination li > a, .pager li>a, .pager li>span, .pager li>a:hover, .pager li>a:focus, .pager .disabled>a, .pager .disabled>a:hover, .pager .disabled>a:focus, .pager .disabled>span{
+   background-color: transparent;
+   border-color: #eee;
+   border-radius:0;
+}
+/* end theme */
+
+.email{
+  margin-top: 40px;
+}
+.img{
+  margin-top: 10px;
+  margin-left: 60px;
+  
+}
+button a{
+  text-decoration: none !important;
+  color: #fff;
+}
+.brand{
+  font-family: 'IBM Plex Mono' !important;
+  margin-top: 2px;
+  text-align: center;
+  color: #fc7208;
+  font-size: 50px;
+}
+.test-form{
+  margin-top: 10px;
+}
+.test-form h2{
+  text-align: center;
+  color: #333;
+}
+.test-form form{
+  padding-top: 20px;
+  margin-left: 180px;
+}
+.test-form form input{
+  margin: 10px;
+}
+.test-form form .btn{
+  border-radius: 6px;
+}
+
+.train-form{
+  margin-top: 10px;
+}
+.train-form h2{
+  text-align: center;
+  color: #333;
+}
+.train-form form{
+  padding-top: 20px;
+}
+.train-form form label, .train-form form input, .train-form form select{
+  margin-left: 180px;
+  margin-top: 10px;
+}
+.train-form form .btn{
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.ai{
+  color: #0743a3;
+}
+
+.details{
+  margin-top: 15px;
+}
+.details li{
+  padding: 5px;
+}
