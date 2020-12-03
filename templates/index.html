@@ -27,10 +27,10 @@
 	            <div class="col-sm-6 col-md-6 test-form">
 	                <h2>Upload Your Testing Data</h2>
 	                <form action="" id="testForm" method="POST" enctype="multipart/form-data">
-	                    <label for="testData" form="testForm">Testing Data:</label>
-	                    <input id="testData" type="file" name="testingData">
-	                    <input type="submit" class="btn btn-success btn-lg" name="submit" value="Test Your Model">
-	                </form>
+						{{ testForm.testData.label }}
+						{{ testForm.testData }}
+						{{ testForm.submit(class="btn btn-success btn-lg") }}
+					</form>
 	                <hr style="border-width: 5px;">
 	                <h3>
 	                	<ul class="details">
@@ -42,27 +42,15 @@
 	            <div class="col-sm-6 col-md-6 train-form">
 	                <h2>Hyperparameters Tuning</h2>
 	                <form action="" id="trainForm" method="POST" enctype="multipart/form-data">
-	                    <label for="trainData" form="trainForm">Training Data:</label>
-	                    <input type="file" name="trainData" id="trainData"><br>
+	                    {{ trainForm.trainData.label }}
+	                    {{ trainForm.trainData }}<br>
 	                	<div>
-		                	<img class="img" src="img.jpeg" alt="">
+		                	<img class="img" src="../static/img.jpeg" alt="">
 		                </div>
-	                	<label for="learnRate" form="trainForm">Learning Rate:</label><br>
-	                    <select name="">
-	                    	<option>--select--</option>
-	                    	<option>1e-5</option>
-	                    	<option>1e-4</option>
-	                    	<option>0.5e-5</option>
-	                    	<option>Custom</option>
-	                    </select><br>
-	                    <label for="epochs" form="trainForm">Epochs:</label><br>
-	                    <select>
-	                    	<option>--select--</option>
-	                    	<option>10</option>
-	                    	<option>5</option>
-	                    	<option>15</option>
-	                    	<option>Custom</option>
-	                    </select><br>
+	                	{{ trainForm.learnRate.label }}<br>
+	                    {{ trainForm.learnRate }}<br>
+	                	{{ trainForm.epochs.label }}<br>
+	                    {{ trainForm.epochs }}<br>
 	                    <!-- <label for="algo" form="trainForm">Algorithm:</label><br>
 	                    <select name="algo" id="algo">
 	                        <option>--select--</option>
@@ -70,16 +58,10 @@
 	                        <option value="">RMSProp</option>
 	                        <option value="">SGD</option>
 	                    </select><br> -->
-	                    <label for="model" form="trainForm">Model Architecture:</label><br>
-	                    <select name="model" id="model">
-	                        <option>--select--</option>
-	                        <option value="">XLNet (Recommended)</option>
-	                        <option value="">T5</option>
-	                        <option value="">BERT</option>
-	                        <option value="">GPT2</option>
-	                    </select>
-	                    <input type="submit" class="btn btn-success btn-lg" name="submit" value="Retrain Your Model">
-	                </form>
+	                	{{ trainForm.arch.label }}<br>
+	                    {{ trainForm.arch }}<br>
+						{{ trainForm.submit(class="btn btn-success btn-lg") }}
+					</form>
 	            </div>
 	        </div>
 	    </div>
