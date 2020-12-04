@@ -225,7 +225,7 @@ button a{
   padding-top: 20px;
   margin-left: 180px;
 }
-.test-form form input{
+.test-form form label, .test-form form select, .test-form form input{
   margin: 10px;
 }
 .test-form form .btn{

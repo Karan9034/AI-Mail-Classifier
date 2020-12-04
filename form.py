@@ -4,7 +4,8 @@ from wtforms import SubmitField, SelectField
 from wtforms.validators import DataRequired
 
 class TestForm(FlaskForm):
-    testData = FileField('Testing Data:', validators=[FileRequired(), FileAllowed(['zip'])])
+    testData = FileField('Testing Data:', validators=[FileRequired(), FileAllowed(['zip'])])    
+    arch = SelectField('Model Archiecture:', choices=[('','--select--'),('','XLNet (Recommended)'),('','T5'),('','BERT'),('', 'GPT2')])
     submit = SubmitField('Test Your Model')
 
 class TrainForm(FlaskForm):

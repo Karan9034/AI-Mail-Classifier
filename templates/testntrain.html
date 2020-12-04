@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Test or Train | eMAIL — AI Mail Classifier</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap-custom.css">
+</head>
+<body>
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <div class="btn-group">
+                    <a href="{{ url_for('home') }}"><button type="button" class="btn btn-primary btn-lg">HOME</button></a>
+                </div> 
+            </div>
+            <div class="col-sm-6 col-md-8"><h1 class="brand">eM<span class="ai">AI</span>L</h1></div>
+            <div class="col-sm-3 col-md-2"></div>
+        </div>
+        <hr style="border-width: 5px;">
+    </div>
+    <div class="bgc">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-sm-6 col-md-6 test-form">
+	                <h2>Upload Your Testing Data</h2>
+	                <form action="" id="testForm" method="POST" enctype="multipart/form-data">
+						{{ testForm.testData.label }}
+						{{ testForm.testData }}
+						{{ testForm.arch.label }}<br>
+						{{ testForm.arch }}<br>
+						{{ testForm.submit(class="btn btn-success btn-lg") }}
+					</form>
+	                <hr style="border-width: 5px;">
+	                <h3>
+	                	<ul class="details">
+	                		<li>For input of the test data, provide a zipped file containing all the emails to be tested.</li>
+	                		<li>We advise you to use the recommended hyperparameters for highest accuracy.</li>
+	                	</ul>
+	                </h3>
+	            </div>
+	            <div class="col-sm-6 col-md-6 train-form">
+	                <h2>Hyperparameters Tuning</h2>
+	                <form action="" id="trainForm" method="POST" enctype="multipart/form-data">
+	                    {{ trainForm.trainData.label }}
+	                    {{ trainForm.trainData }}<br>
+	                	<div>
+		                	<img class="img" src="../static/img.jpeg" alt="">
+		                </div>
+	                	{{ trainForm.learnRate.label }}<br>
+	                    {{ trainForm.learnRate }}<br>
+	                	{{ trainForm.epochs.label }}<br>
+	                    {{ trainForm.epochs }}<br>
+	                    <!-- <label for="algo" form="trainForm">Algorithm:</label><br>
+	                    <select name="algo" id="algo">
+	                        <option>--select--</option>
+	                        <option value="">ADAM (Recommended)</option>
+	                        <option value="">RMSProp</option>
+	                        <option value="">SGD</option>
+	                    </select><br> -->
+	                	{{ trainForm.arch.label }}<br>
+	                    {{ trainForm.arch }}<br>
+						{{ trainForm.submit(class="btn btn-success btn-lg") }}
+					</form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</body>
+</html>
