@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 
 app=Flask(__name__)
 app.config['SECRET_KEY'] = '18256fdc199f95f0cdac2b6ddbae9214'
-app.config['UPLOAD_FOLDER'] = '.\\static\\data'
+app.config['UPLOAD_FOLDER'] = 'static/data'
 
 @app.route('/')
 @app.route('/home')
@@ -19,11 +19,11 @@ def testntrain():
     testForm = TestForm()
     trainForm = TrainForm()
     if request.method == 'POST':
-        if testForm.validate_on_submit():
-            f = request.files
-            f.save(secure_filename(f.filename))
+        if testForm.submit():
+            f = request.files['testData']
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
             return redirect(url_for('home'))
-        if trainForm.validate_on_submit():
+        if trainForm.submit():
             pass
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
