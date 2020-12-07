@@ -7,7 +7,7 @@ cmd = 'unzip ./test-uploads/*.zip -d ./test-uploads/extracted-data'
 
 def cleanForTest():
     os.system(cmd)
-    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','email.csv'), 'at') as file:
+    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'at') as file:
         fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted','Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()

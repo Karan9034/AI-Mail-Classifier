@@ -23,17 +23,17 @@ def testntrain():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
-            return redirect(url_for('result', category='transfers'))
+            return redirect(url_for('results', category='transfers'))
         if trainForm.submit():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            return redirect(url_for('result', category='transfers'))
+            return redirect(url_for('results', category='transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
 @app.route('/<string:category>')
-def result(category):
-    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'email.csv'),'r') as csvfile:
+def results(category):
+    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'email.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile)
         return render_template('results.html', category=category, reader=reader)
 
