@@ -3,16 +3,14 @@ import extract_msg
 import csv
 import re
 
-# folders = ['Retirements', 'Transfers', 'MDU']
-cmd = 'unzip ./test-uploads/*.zip ./test-uploads/extracted-data'
+cmd = 'unzip ./test-uploads/*.zip -d ./test-uploads/extracted-data'
 
 def cleanForTest():
     os.system(cmd)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','email.csv'), 'at') as file:
-        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Label']
+        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted','Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        # folder = os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data'))
         for f in os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data')):
             if not f.endswith('.msg'):
                 continue
@@ -36,10 +34,11 @@ def cleanForTest():
             msg_message = re.sub('Cc *: (.*)\n','', msg_message)
             msg_message = re.sub('Sent *: (.*)\n','', msg_message)
             msg_message = re.sub('Subject *:','', msg_message)
-            msg_message = re.sub('[^a-zA-z0-9@,\.]'," ",msg_message)
+            msg_uformatted = re.sub('[^a-zA-z0-9@,\.]'," ",msg_message)
+            msg_message = re.sub('[^a-zA-z,\.]'," ",msg_message)
 
             msg_message = ' '.join(re.split("\n",msg_message))
             msg_message = ' '.join(re.split(" +",msg_message))
             msg_message = ''.join(re.split("\r",msg_message))
 
-            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Label':''})
+            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label':''})

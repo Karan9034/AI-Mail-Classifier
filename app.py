@@ -1,5 +1,4 @@
-import os
-import secrets
+import os, secrets, csv
 from flask import Flask, request, render_template, url_for, flash, redirect, current_app
 from form import TestForm, TrainForm
 from test import cleanForTest
@@ -24,13 +23,19 @@ def testntrain():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
-            return redirect(url_for('home'))
+            return redirect(url_for('result', category='transfers'))
         if trainForm.submit():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            return redirect(url_for('home'))
+            return redirect(url_for('result', category='transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
+
+@app.route('/<string:category>')
+def result(category):
+    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'email.csv'),'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+    return render_template('results.html', category=category, reader=reader)
 
 
 
