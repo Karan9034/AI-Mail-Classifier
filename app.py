@@ -3,12 +3,12 @@ import secrets
 from flask import Flask, request, render_template, url_for, flash, redirect, current_app
 from form import TestForm, TrainForm
 from test import cleanForTest
+from train import cleanForTrain
 from werkzeug.utils import secure_filename
 
 
 app=Flask(__name__)
 app.config['SECRET_KEY'] = '18256fdc199f95f0cdac2b6ddbae9214'
-app.config['UPLOAD_FOLDER'] = 'static/data'
 
 @app.route('/')
 @app.route('/home')
@@ -22,11 +22,14 @@ def testntrain():
     if request.method == 'POST':
         if testForm.submit():
             f = request.files['testData']
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
             return redirect(url_for('home'))
         if trainForm.submit():
-            pass
+            f = request.files['testData']
+            f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
+            cleanForTrain()
+            return redirect(url_for('home'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
 
