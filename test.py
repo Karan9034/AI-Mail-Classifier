@@ -42,6 +42,6 @@ def clean():
             msg_message = ' '.join(re.split(" +",msg_message))
             msg_message = ''.join(re.split("\r",msg_message))
 
-            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender, 'Body': msg_message.encode('utf-8'), 'Label':''})
+            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[], 'Body': msg_message.encode('utf-8'), 'Label':''})
 
 
