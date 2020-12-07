@@ -2,7 +2,7 @@ import os
 import secrets
 from flask import Flask, request, render_template, url_for, flash, redirect, current_app
 from form import TestForm, TrainForm
-from test import clean
+from test import cleanForTest
 from werkzeug.utils import secure_filename
 
 
@@ -23,7 +23,7 @@ def testntrain():
         if testForm.submit():
             f = request.files['testData']
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-            clean()
+            cleanForTest()
             return redirect(url_for('home'))
         if trainForm.submit():
             pass

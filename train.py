@@ -4,19 +4,19 @@ import csv
 import re
 
 # folders = ['Retirements', 'Transfers', 'MDU']
-cmd = 'unzip ./test-uploads/*.zip ./test-uploads/extracted-data'
+cmd = 'unzip ./static/data/*.zip ./static/data/extracted-data'
 
-def cleanForTest():
+def cleanForTrain():
     os.system(cmd)
-    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','email.csv'), 'at') as file:
+    with open(os.path.join(os.getcwd(), 'static','data','model-input','email.csv'), 'at') as file:
         fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        # folder = os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data'))
-        for f in os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data')):
+        folder = os.listdir(os.path.join(os.getcwd(),'static','data','extracted-data'))
+        for f in os.listdir(os.path.join(os.getcwd(),'static','data','extracted-data', folder)):
             if not f.endswith('.msg'):
                 continue
-            msg = extract_msg.Message(os.path.join(os.getcwd(),'test-uploads','extracted-data', f))
+            msg = extract_msg.Message(os.path.join(os.getcwd(),'static','data','extracted-data', folder, f))
             msg_sender = msg.body
             msg_date = msg.date
             msg_subj = msg.subject
@@ -36,10 +36,12 @@ def cleanForTest():
             msg_message = re.sub('Cc *: (.*)\n','', msg_message)
             msg_message = re.sub('Sent *: (.*)\n','', msg_message)
             msg_message = re.sub('Subject *:','', msg_message)
-            msg_message = re.sub('[^a-zA-z0-9@,\.]'," ",msg_message)
+            msg_message = re.sub('[^a-zA-z,\.]'," ",msg_message)
 
             msg_message = ' '.join(re.split("\n",msg_message))
             msg_message = ' '.join(re.split(" +",msg_message))
             msg_message = ''.join(re.split("\r",msg_message))
 
-            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Label':''})
+            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[1], 'Body': msg_message.encode('utf-8'), 'Label':''})
+
+
