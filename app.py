@@ -35,9 +35,7 @@ def testntrain():
 def result(category):
     with open(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'email.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile)
-    return render_template('results.html', category=category, reader=reader)
-
-
+        return render_template('results.html', category=category, reader=reader)
 
 if __name__=="__main__":
     app.run(debug=True)
