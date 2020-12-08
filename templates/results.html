@@ -43,21 +43,21 @@
                 <!--left-->
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        {{ if category=='transfers' }}
+                        {% if category=='transfers' %}
                             <li class="active"><a href="{{ url_for('results', category='transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
-                        {{ else }}
+                        {% else %}
                             <li><a href="{{ url_for('results', category='transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
-                        {{ endif }}
-                        {{ if category=='retirements' }}
+                        {% endif %}
+                        {% if category=='retirements' %}
                             <li class="active"><a href="{{ url_for('results', category='retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
-                        {{ else }}
+                        {% else %}
                             <li><a href="{{ url_for('results', category='retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
-                        {{ endif }}
-                        {{ if category=='mdu' }}
+                        {% endif %}
+                        {% if category=='mdu' %}
                             <li class="active"><a href="{{ url_for('results', category='mdu') }}"><span class="badge pull-right">6</span>MDU</a></li>
-                        {{ else }}
+                        {% else %}
                             <li><a href="{{ url_for('results', category='mdu') }}"><span class="badge pull-right">6</span>MDU</a></li>
-                        {{ endif }}
+                        {% endif %}
                     </ul>
                     <hr>
                 </aside>
@@ -91,8 +91,8 @@
                                         <td>
                                         </td>
                                     </tr>
-                                    {{ for row in reader }}
-                                        {{ if row['Label'] == category }}
+                                    {% for row in reader %}
+                                        {% if row['Label'] == category %}
                                         <tr>
                                             <td>
                                                 <label>
@@ -102,8 +102,8 @@
                                             <td><span class="subject">{{ row['Subject'] }}</span> <small class="text-muted">- {{ row['Body'][:20] }}...</small></td>
                                             <td><span class="badge">{{ row['Date'] }}</span></td>
                                         </tr>
-                                        {{ endif }}
-                                    {{ endfor }}
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>

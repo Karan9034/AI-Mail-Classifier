@@ -33,7 +33,7 @@ def testntrain():
 
 @app.route('/<string:category>')
 def results(category):
-    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'email.csv'),'r') as csvfile:
+    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'testing.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile)
         return render_template('results.html', category=category, reader=reader)
 
