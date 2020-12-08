@@ -24,7 +24,7 @@ def testntrain():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
-            Processing_Test(os.path.join(os.getcwd(), 'train-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
+            Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             return redirect(url_for('results', category='transfers'))
         if trainForm.submit():
             f = request.files['testData']
