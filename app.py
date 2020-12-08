@@ -31,7 +31,7 @@ def testntrain():
             return redirect(url_for('results', category='transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
-@app.route('/<string:category>', methods=['GET','POST'])
+@app.route('/<string:category>', methods=['GET'])
 def results(category):
     with open(os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'testing.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile)
