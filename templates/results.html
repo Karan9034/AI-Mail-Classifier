@@ -91,76 +91,22 @@
                                         <td>
                                         </td>
                                     </tr>
-                                    <!-- inbox item -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Mark Otto</span></td>
-                                        <td><span class="subject">Nice work on the docs for lastest version</span> <small class="text-muted">- Joe, I just reviewed the last...</small></td>
-                                        <td><span class="badge">12:10 AM</span> <span class="pull-right glyphicon glyphicon-paperclip"></span></td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Anil Judah</span></td>
-                                        <td><span class="subject">GAE Project</span> <small class="text-muted">- Can you take a second to look..</small></td>
-                                        <td><span class="badge badge-inverse">11:33 AM</span> <span class="pull-right glyphicon glyphicon-warning-sign text-danger"></span></td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr class="unread">
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Terry Lincoln</span></td>
-                                        <td><span class="subject">Vacation pics</span> <small class="text-muted">(this message contains images)</small></td>
-                                        <td><span class="badge">11:13 AM</span> <span class="pull-right"></span></td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Mark Brown</span></td>
-                                        <td><span class="subject">Last call for this weekend</span> <small class="text-muted">- Hi Joe, Thanks for sending over those..</small></td>
-                                        <td><span class="badge">11:05 AM</span> <span class="pull-right"></span></td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Jorge Anodonolgez</span></td>
-                                        <td><span class="subject">Meeting with Simco</span> <small class="text-muted">- Joe I included your contact info for the...</small></td>
-                                        <td><span class="badge">10:54 AM</span> <span class="pull-right glyphicon glyphicon-paperclip"></span></td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox">
-                                            </label> <span class="name">Mark Otto</span></td>
-                                        <td><span class="subject">FYI: New Release</span> <small class="text-muted">this message is high priority</small></td>
-                                        <td><span class="badge">9:58 AM</span> <span class="pull-right"></span></td>
-                                    </tr>
+                                    {{ for row in reader }}
+                                        {{ if row['Label'] == category }}
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox">
+                                                </label> <span class="name">{{ row['Sender'] }}</span>
+                                            </td>
+                                            <td><span class="subject">{{ row['Subject'] }}</span> <small class="text-muted">- {{ row['Body'][:20] }}...</small></td>
+                                            <td><span class="badge">{{ row['Date'] }}</span></td>
+                                        </tr>
+                                        {{ endif }}
+                                    {{ endfor }}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade in" id="profile">
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <span class="text-center">This tab folder is empty.</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-md-12">
-                        <div class="well text-right">
-                            <small>Last updated: 4/14/2015: 3:02 PM</small>
-                        </div>
-
                     </div>
                 </div>
             </div>
