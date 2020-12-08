@@ -12,7 +12,7 @@ def cleanForTest():
 
     os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'at') as file:
-        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted','Label']
+        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for f in os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data')):
@@ -45,5 +45,5 @@ def cleanForTest():
             msg_message = ' '.join(re.split(" +",msg_message))
             msg_message = ''.join(re.split("\r",msg_message))
 
-            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label':''})
+            writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8')})
         os.system(rmmsg)

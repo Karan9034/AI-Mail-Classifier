@@ -200,6 +200,7 @@ def Processing_Train(Data,model) :
 def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
     tf = Processing_Train(Training_Data, model)
     data = pd.read_csv(Testing_Data,encoding='cp1252')
+    display = data.copy()
     data["Body"]=data["Subject"]+'. '+data["Body"]
     sentences=list(data.Body.values)
     body_test=[]
@@ -217,4 +218,5 @@ def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
         Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav'))
     pred = Model.predict(X_test)
     df = pd.DataFrame({'Label': pred})
-    df.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"Predictions.csv"),index=False)
+    display = pd.concat((display, df), axis=1)
+    display.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"display.csv"),index=False)
