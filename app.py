@@ -4,6 +4,7 @@ from form import TestForm, TrainForm
 from test import cleanForTest
 from train import cleanForTrain
 from werkzeug.utils import secure_filename
+from models.final import Processing_Test, Training
 
 
 app=Flask(__name__)
@@ -19,15 +20,18 @@ def testntrain():
     testForm = TestForm()
     trainForm = TrainForm()
     if request.method == 'POST':
-        if testForm.submit():
+        if testForm.submit():            
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
+            # Processing_Test(os.path.join(os.getcwd(), 'train-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
+            # os.system('rm ./test-uploads/model-input/*')
             return redirect(url_for('results', category='transfers'))
         if trainForm.submit():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
+            # Training()
             return redirect(url_for('results', category='transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
