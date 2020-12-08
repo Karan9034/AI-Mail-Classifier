@@ -13,14 +13,14 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 def Xgboost(data,labels):
     xgb = xgboost.XGBClassifier()
     model = xgb.fit(data,labels)
-    filename = 'xgboost.sav'
+    filename = '../test-uploads/model-output/xgboost.sav'
     joblib.dump(model, filename)
     return model
 
 def Rfc(data,labels):
     rfc = RandomForestClassifier()
     model = rfc.fit(data,labels)
-    filename = 'rfc.sav'
+    filename = '../test-uploads/model-output/rfc.sav'
     joblib.dump(model, filename)
     return model
 
@@ -198,7 +198,6 @@ def Processing_Train(Data,model) :
 def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
     tf = Processing_Train(Training_Data, model)
     data = pd.read_csv(Testing_Data,encoding='cp1252')
-    df = data.copy()
     data["Body"]=data["Subject"]+'. '+data["Body"]
     sentences=list(data.Body.values)
     body_test=[]
@@ -211,10 +210,9 @@ def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
         body_test.append(bb)
     X_test = tf.transform(body_test)
     if model == 'XgBoost':
-        Model = joblib.load('xgboost.sav')
+        Model = joblib.load('../test-uploads/model-output/xgboost.sav')
     elif model == 'RandomForestClassifier':
-        Model = joblib.load('rfc.sav')
+        Model = joblib.load('../test-uploads/model-output/rfc.sav')
     pred = Model.predict(X_test)
-    for i in range(len(pred)):
-        df.loc[i,"Label"] = pred[i]
-    df.to_csv("Predictions.csv",index=False)
+    df = pd.DataFrame({'Label': pred})
+    df.to_csv("../test-uploads/model-output/Predictions.csv",index=False)
