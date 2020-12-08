@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import numpy as np
 import nltk, random
 from nltk.corpus import stopwords
@@ -13,14 +14,14 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 def Xgboost(data,labels):
     xgb = xgboost.XGBClassifier()
     model = xgb.fit(data,labels)
-    filename = '../test-uploads/model-output/xgboost.sav'
+    filename = os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav')
     joblib.dump(model, filename)
     return model
 
 def Rfc(data,labels):
     rfc = RandomForestClassifier()
     model = rfc.fit(data,labels)
-    filename = '../test-uploads/model-output/rfc.sav'
+    filename = os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav')
     joblib.dump(model, filename)
     return model
 
@@ -121,6 +122,7 @@ def Training(Data,model):
     matrix=confusion_matrix(labels_test,pred)
     score=accuracy_score(labels_test,pred)
     report=classification_report(labels_test,pred)
+
     return matrix,score,report
 
 def Processing_Train(Data,model) :
@@ -210,9 +212,9 @@ def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
         body_test.append(bb)
     X_test = tf.transform(body_test)
     if model == 'XgBoost':
-        Model = joblib.load('../test-uploads/model-output/xgboost.sav')
+        Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav'))
     elif model == 'RandomForestClassifier':
-        Model = joblib.load('../test-uploads/model-output/rfc.sav')
+        Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav'))
     pred = Model.predict(X_test)
     df = pd.DataFrame({'Label': pred})
-    df.to_csv("../test-uploads/model-output/Predictions.csv",index=False)
+    df.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"Predictions.csv"),index=False)
