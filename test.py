@@ -3,10 +3,13 @@ import extract_msg
 import csv
 import re
 
-cmd = 'unzip ./test-uploads/*.zip -d ./test-uploads/extracted-data'
+unzip = 'unzip ./test-uploads/*.zip -d ./test-uploads/extracted-data'
+rmzip = 'rm ./test-uploads/*.zip'
+rmmsg = 'rm ./test-uploads/extracted-data/*'
 
 def cleanForTest():
-    os.system(cmd)
+    os.system(unzip)
+    os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'at') as file:
         fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted','Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -42,3 +45,4 @@ def cleanForTest():
             msg_message = ''.join(re.split("\r",msg_message))
 
             writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label':''})
+        os.system(rmmsg)
