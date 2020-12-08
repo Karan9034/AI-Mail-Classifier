@@ -24,7 +24,7 @@ def testntrain():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
-            Processing_Test(os.path.join(os.getcwd(), 'train-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
+            Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             return redirect(url_for('results', category='transfers'))
         if trainForm.submit():
             f = request.files['testData']
@@ -35,7 +35,7 @@ def testntrain():
 
 @app.route('/<string:category>', methods=['GET'])
 def results(category):
-    with open(os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'testing.csv'),'r') as csvfile:
+    with open(os.path.join(os.getcwd(),'test-uploads', 'model-input',  'Predictions.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile)
         return render_template('results.html', category=category, reader=reader)
 
