@@ -217,6 +217,5 @@ def Processing_Test (Training_Data,Testing_Data,model='XgBoost'):
     elif model == 'RandomForestClassifier':
         Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav'))
     pred = Model.predict(X_test)
-    df = pd.DataFrame({'Label': pred})
-    display = pd.concat((display, df), axis=1)
-    display.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"display.csv"),index=False)
+    pred = pd.DataFrame({'Label': pred})
+    pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
