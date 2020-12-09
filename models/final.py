@@ -133,9 +133,9 @@ def Processing_Train(Data,model) :
     data=pd.read_csv(Data,encoding='cp1252')
     data["Body"]=data["Subject"]+'. '+data["Body"]
     l = data.Body.values.tolist()
-    mdu_index = [i for i in range(len(l)) if data.iloc[i,4] == 'MDU' ]
-    tra_index = [i for i in range(len(l)) if data.iloc[i,4] == 'Transfers' ]
-    ret_index = [i for i in range(len(l)) if data.iloc[i,4] == 'Retirements' ]
+    mdu_index = [i for i in range(len(l)) if data.iloc[i,5] == 'MDU' ]
+    tra_index = [i for i in range(len(l)) if data.iloc[i,5] == 'Transfers' ]
+    ret_index = [i for i in range(len(l)) if data.iloc[i,5] == 'Retirements' ]
     newlist=[]
     l1=[]
     labels_new = []
