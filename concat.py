@@ -7,4 +7,4 @@ def Concat(test,pred):
 	test = pd.read_csv(test, encoding='cp1252')
 	pred = pd.read_csv(pred)
 	combined_csv = pd.concat([test,pred], axis=1)
-	combined_csv.to_csv(os.path.join(os.getcwd(),'test-uploads', 'model-output','result.csv', index=False))
+	combined_csv.to_csv(os.path.join(os.getcwd(),'test-uploads', 'model-output','result.csv'), index=False)

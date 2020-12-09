@@ -11,6 +11,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
 
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('stopwords')
+
 def Xgboost(data,labels):
     xgb = xgboost.XGBClassifier()
     model = xgb.fit(data,labels)
