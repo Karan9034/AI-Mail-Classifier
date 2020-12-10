@@ -9,9 +9,8 @@ rmmsg = 'rm ./test-uploads/extracted-data/*'
 
 def cleanForTest():
     os.system(unzip)
-
     os.system(rmzip)
-    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'at') as file:
+    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'wt') as file:
         fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()

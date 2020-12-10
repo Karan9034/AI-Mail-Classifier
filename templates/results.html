@@ -43,20 +43,20 @@
                 <!--left-->
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        {% if category=='transfers' %}
-                            <li class="active"><a href="{{ url_for('results', category='transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
+                        {% if category=='Transfers' %}
+                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
+                            <li><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
                         {% endif %}
-                        {% if category=='retirements' %}
-                            <li class="active"><a href="{{ url_for('results', category='retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
+                        {% if category=='Retirements' %}
+                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
+                            <li><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
                         {% endif %}
-                        {% if category=='mdu' %}
-                            <li class="active"><a href="{{ url_for('results', category='mdu') }}"><span class="badge pull-right">6</span>MDU</a></li>
+                        {% if category=='MDU' %}
+                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">6</span>MDU</a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='mdu') }}"><span class="badge pull-right">6</span>MDU</a></li>
+                        <li><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">69</span>MDU</a></li>
                         {% endif %}
                     </ul>
                     <hr>
@@ -92,7 +92,7 @@
                                         </td>
                                     </tr>
                                     {% for row in reader %}
-                                        {% if row['Label'].lower() == category %}
+                                        {% if row['Label'] == category %}
                                         <tr>
                                             <td>
                                                 <label>

@@ -3,7 +3,6 @@ from flask import Flask, request, render_template, url_for, flash, redirect, cur
 from form import TestForm, TrainForm
 from test import cleanForTest
 from train import cleanForTrain
-from concat import Concat
 from werkzeug.utils import secure_filename
 from models.final import Processing_Test, Training
 
@@ -26,19 +25,19 @@ def testntrain():
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
             Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
-            Concat(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-output', 'pred.csv'))
-            return redirect(url_for('results', category='transfers'))
+            os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
+            return redirect(url_for('results', category='Transfers'))
         if trainForm.submit():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            return redirect(url_for('results', category='transfers'))
+            return redirect(url_for('results', category='Transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
 @app.route('/<string:category>', methods=['GET'])
 def results(category):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
-        reader = csv.DictReader(csvfile, fieldnames=["Subject", "Date", "Sender", "Body", "Body_Unformatted", "Label"])
+        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
         return render_template('results.html', category=category, reader=reader)
 
 if __name__=="__main__":
