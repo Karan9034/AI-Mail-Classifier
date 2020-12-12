@@ -48,19 +48,19 @@
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
                         {% if category=='Transfers' %}
-                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
+                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">{{ transfers }}</span> Transfers </a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">32</span> Transfers </a></li>
+                            <li><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">{{ transfers }}</span> Transfers </a></li>
                         {% endif %}
                         {% if category=='Retirements' %}
-                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
+                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">{{ retirements }}</span>Retirements</a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">18</span>Retirements</a></li>
+                            <li><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">{{ retirements }}</span>Retirements</a></li>
                         {% endif %}
                         {% if category=='MDU' %}
-                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">6</span>MDU</a></li>
+                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">{{ mdu }}</span>MDU</a></li>
                         {% else %}
-                        <li><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">69</span>MDU</a></li>
+                        <li><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">{{ mdu }}</span>MDU</a></li>
                         {% endif %}
                     </ul>
                     <hr>

@@ -183,5 +183,12 @@ def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
         
     pred = pd.DataFrame({'Label': pred})
     pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
-    counts = pred['Label'].value_counts()
-    return counts
+    transfers,retirements,mdu = 0,0,0
+    for i in range(len(pred['Label'])):
+        if df.iloc[i,-1]=='Transfers':
+            transfers+=1
+        if df.iloc[i,-1]=='Retirements':
+            retirements+=1
+        if df.iloc[i,-1]=='MDU':
+            mdu+=1
+    return transfers,retirements,mdu
