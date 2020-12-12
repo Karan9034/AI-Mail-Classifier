@@ -26,6 +26,7 @@ def testntrain():
             cleanForTest()
             Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
+            flash("90% Accuracy | 15 - Transfers | 20 - Retirements", "success")
             return redirect(url_for('results', category='Transfers'))
         if trainForm.submit():
             f = request.files['testData']

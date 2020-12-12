@@ -1,7 +1,6 @@
 /* CSS used here will be applied after bootstrap.css */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 
-body{ margin-top:50px;}
 .nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
 .tab-pane .list-group-item:first-child {border-top-right-radius: 0px;border-top-left-radius: 0px;}
 .tab-pane .list-group-item:last-child {border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;}
@@ -31,10 +30,10 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 */
 body {
   font-family:Verdana, Geneva, sans-serif;
-  color:#000;
+  color:#FFF;
   font-weight:200;
   font-size:13px;
-  background-color:#2e3440;
+  background-color:#4c566a;
 }
 a, .help-block  {
   color:#262626;
@@ -48,7 +47,7 @@ h1,h2,h3,h4{
 }
 p.lead {
   font-family:arial, sans-serif;
-  color:#000;
+  color:#FFF;
   font-size:16px;
   font-weight:700;
 }
@@ -63,7 +62,7 @@ p.lead {
 }
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
   color: #000;
-  background-color: #00d2be;
+  background-color: #FC7208;
 }
 .well{
   background: #f8f8f8;
@@ -75,10 +74,10 @@ p.lead {
   border-color: #f0f0f0;
 }
 .table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
-  background-color: #00d2be;
+  background-color: #D08770;
 }
 .table>tbody>tr>td, .table>tbody>tr>th {
-  background-color: #FFF;
+  background-color: #4c566a;
 }
 .table>thead>tr>th {
   border-bottom-width: 1px;
@@ -118,8 +117,8 @@ p.lead {
 }
 a.list-group-item.active, .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
   color: #000;
-  background-color: #00d2be;
-  border-color: #00d2be; 
+  background-color: #d08770;
+  border-color: #d08770; 
 }
 .badge {
   border-radius:2px;
@@ -216,17 +215,24 @@ button a{
 }
 .test-form{
   margin-top: 10px;
+  position: relative;
+  right: 10%;
 }
 .test-form h2{
+  font-size: 40px;
   text-align: center;
-  color: #333;
+  color: #FFF;
 }
 .test-form form{
   padding-top: 20px;
-  margin-left: 180px;
+  margin-left: 100px;
 }
 .test-form form label, .test-form form select, .test-form form input{
   margin: 10px;
+  font-size: 20px;
+}
+.test-form form select{
+  color: #000;
 }
 .test-form form .btn{
   border-radius: 6px;
@@ -234,10 +240,13 @@ button a{
 
 .train-form{
   margin-top: 10px;
+  position: relative;
+  left: 10%
 }
 .train-form h2{
   text-align: center;
-  color: #333;
+  color: #FFF;
+  font-size: 40px;
 }
 .train-form form{
   padding-top: 20px;
@@ -245,6 +254,10 @@ button a{
 .train-form form label, .train-form form input, .train-form form select{
   margin-left: 180px;
   margin-top: 10px;
+  font-size: 20px;
+}
+.train-form form select{
+  color: #000;
 }
 .train-form form .btn{
   border-radius: 6px;
@@ -259,6 +272,7 @@ button a{
 }
 .details li{
   padding: 5px;
+  color: #ccc;
 }
 
 .nav-pills li{
@@ -270,4 +284,12 @@ img.logo {
   margin-bottom: 1vw;
   position: relative;
   left: 28%;
+}
+.upper {
+  background-color: #2e3440;
+  margin-top: 0;
+  padding-top: 3vw;
+}
+.btn {
+  margin-bottom: 0.5vw;
 }

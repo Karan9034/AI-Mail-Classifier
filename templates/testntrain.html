@@ -10,13 +10,15 @@
 </head>
 <body>
 	<div class="container-fluid">
-        <div class="row">
+        <div class="row upper">
             <div class="col-sm-3 col-md-2">
                 <div class="btn-group">
                     <a href="{{ url_for('home') }}"><button type="button" class="btn btn-primary btn-lg">HOME</button></a>
                 </div> 
             </div>
-            <div class="col-sm-6 col-md-8"><h1 class="brand">eM<span class="ai">AI</span>L</h1></div>
+            <div class="col-sm-6 col-md-8">
+                <img src="{{ url_for('static', filename='icon.png') }}" class="logo" style="left: 40%;"/>
+            </div>
             <div class="col-sm-3 col-md-2"></div>
         </div>
         <hr style="border-width: 5px;">

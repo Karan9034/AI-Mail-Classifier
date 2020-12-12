@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row upper">
             <div class="col-sm-3 col-md-2">
                 <div class="btn-group">
                     <a href="{{ url_for('testntrain') }}">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-sm-9 col-md-10">
-                <img class="logo" src="{{ url_for('static', filename='icon.png') }}"
+                <img src="{{ url_for('static', filename='icon.png') }}" class="logo"/>
                 <div class="pull-right">
                     <!-- <span class="text-muted"><b>1</b>–<b>50</b> of <b>160</b></span>
                     <div class="btn-group btn-group-sm">
@@ -43,9 +43,9 @@
                 <!--left-->
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#"><span class="badge pull-right">32</span> Transfers </a></li>
-                        <li><a href="#"><span class="badge pull-right">18</span>Retirements</a></li>
-                        <li><a href="#"><span class="badge pull-right">6</span>MDU</a></li>
+                            <li class="active"><a href="#"><span class="badge pull-right">32</span> Transfers </a></li>
+                            <li><a href="#"><span class="badge pull-right">18</span>Retirements</a></li>
+                        <li><a href="#"><span class="badge pull-right">69</span>MDU</a></li>
                     </ul>
                     <hr>
                 </aside>
@@ -63,24 +63,10 @@
                     <!-- tab panes -->
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="inbox">
-                            <table class="table table-hover">
+                            <table class="table table-striped table-hover">
                                 <tbody>
                                     <!-- inbox header -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="all" title="select all">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-default pull-right"><i title="delete selected" class="glyphicon glyphicon-trash"></i></button>
-                                            <button class="btn btn-default pull-right"><i title="move to folder" class="glyphicon glyphicon-folder-open"></i></button>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <!-- inbox item -->
-                                    <tr>
+                                    <tr class="unread">
                                         <td>
                                             <label>
                                                 <input type="checkbox">
@@ -89,7 +75,7 @@
                                         <td><span class="badge">12:10 AM</span> <span class="pull-right glyphicon glyphicon-paperclip"></span></td>
                                     </tr>
                                     <!-- inbox item -->
-                                    <tr>
+                                    <tr class="unread">
                                         <td>
                                             <label>
                                                 <input type="checkbox">
@@ -107,7 +93,7 @@
                                         <td><span class="badge">11:13 AM</span> <span class="pull-right"></span></td>
                                     </tr>
                                     <!-- inbox item -->
-                                    <tr>
+                                    <tr class="unread">
                                         <td>
                                             <label>
                                                 <input type="checkbox">
@@ -116,7 +102,7 @@
                                         <td><span class="badge">11:05 AM</span> <span class="pull-right"></span></td>
                                     </tr>
                                     <!-- inbox item -->
-                                    <tr>
+                                    <tr class="unread">
                                         <td>
                                             <label>
                                                 <input type="checkbox">
@@ -125,7 +111,7 @@
                                         <td><span class="badge">10:54 AM</span> <span class="pull-right glyphicon glyphicon-paperclip"></span></td>
                                     </tr>
                                     <!-- inbox item -->
-                                    <tr>
+                                    <tr class="unread">
                                         <td>
                                             <label>
                                                 <input type="checkbox">

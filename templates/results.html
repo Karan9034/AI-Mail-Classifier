@@ -10,12 +10,16 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row upper">
             <div class="col-sm-3 col-md-2">
                 <div class="btn-group">
                     <a href="{{ url_for('testntrain') }}">
-                    <button type="button" class="btn btn-primary btn-lg">Train Test n Tune <!-- <span class="caret"></span> -->
-                    </button></a><!-- 
+                        <button type="button" class="btn btn-primary btn-lg">Train Test n Tune<!-- <span class="caret"></span> -->
+                    </button></a>
+                    <a href="../test-uploads/model-output/result.csv" download> 
+                        <button type="button" class="btn btn-primary btn-lg">Download Result
+                            </button></a>
+                            <!-- 
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="test.html">Testing</a></li>
                         <li><a href="train.html">Training and Tuning</a></li>
@@ -23,7 +27,7 @@
                 </div>
             </div>
             <div class="col-sm-9 col-md-10">
-                <h1 class="brand">eM<span class="ai">AI</span>L</h1>
+                <img src="{{ url_for('static', filename='icon.png') }}" class="logo"/>
                 <div class="pull-right">
                     <!-- <span class="text-muted"><b>1</b>–<b>50</b> of <b>160</b></span>
                     <div class="btn-group btn-group-sm">
@@ -73,27 +77,23 @@
                         </span></a></li>
                     </ul> -->
                     <!-- tab panes -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="inbox">
                             <table class="table table-striped table-hover">
                                 <tbody>
                                     <!-- inbox header -->
-                                    <tr>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox" class="all" title="select all">
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-default pull-right"><i title="delete selected" class="glyphicon glyphicon-trash"></i></button>
-                                            <button class="btn btn-default pull-right"><i title="move to folder" class="glyphicon glyphicon-folder-open"></i></button>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
                                     {% for row in reader %}
                                         {% if row['Label'] == category %}
-                                        <tr>
+                                        <tr class="unread">
                                             <td>
                                                 <label>
                                                     <input type="checkbox">
