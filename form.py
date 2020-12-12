@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class TestForm(FlaskForm):
     testData = FileField('Testing Data:', validators=[FileRequired(), FileAllowed(['zip', 'rar', '7z'], 'zip, rar and 7z files only!')])  
-    arch = SelectField('Model Archiecture:', choices=[('','--select--'),('','XLNet (Recommended)'),('','T5'),('','BERT'),('', 'GPT2')])
+    arch = SelectField('Model:', choices=[('','--select--'),('Bagging','Bagging (Recommended)'),('LightGBM','LightGBM'),('RandomForestClassifier','Random Forest'),('XgBoost', 'XgBoost')])
     submit = SubmitField('Test Your Model')
 
 class TrainForm(FlaskForm):

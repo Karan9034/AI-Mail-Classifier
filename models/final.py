@@ -139,7 +139,7 @@ def Processing_Train(Data,model) :
         Model3 = Lgb(X_train,labels)
     return tf
 
-def Processing_Test (Training_Data,Testing_Data,model='LightGBM'):
+def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
     tf = Processing_Train(Training_Data, model)
     data = pd.read_csv(Testing_Data,encoding='cp1252')
     sentences=list(data.Body.values)
@@ -183,3 +183,5 @@ def Processing_Test (Training_Data,Testing_Data,model='LightGBM'):
         
     pred = pd.DataFrame({'Label': pred})
     pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
+    counts = pred['Label'].value_counts()
+    return counts
