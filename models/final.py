@@ -167,7 +167,7 @@ def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
         pred2 = Model2.predict(X_test)
         pred3 = Model2.predict(X_test)
         pred=[]
-        for i in range(len(pred)):
+        for i in range(len(pred1)):
             if pred1[i]==pred2[i] and pred1[i]==pred3[i]:
                 pred.append(pred1[i])
             elif pred1[i]==pred2[i]:

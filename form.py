@@ -10,7 +10,7 @@ class TestForm(FlaskForm):
 
 class TrainForm(FlaskForm):
     trainData = FileField('Training Data:', validators=[FileRequired(), FileAllowed(['zip', 'rar', '7z'], 'zip, rar and 7z files only!')])
-    learnRate = SelectField('Learn Rate:', choices=[('','--select--'),('','1e-5'),('','1e-4'),('','0.5e-5'),('', 'Custom')])
-    epochs = SelectField('Epochs:', choices=[('','--select--'),('','10'),('','5'),('','15'),('', 'Custom')])
-    arch = SelectField('Model Archiecture:', choices=[('','--select--'),('','XLNet (Recommended)'),('','T5'),('','BERT'),('', 'GPT2')])
+    learnRate = SelectField('Number of Threads(n_jobs):', choices=[('','--select--'), ('','All')('','1'),('','2'),('','3'),('', '4')])
+    epochs = SelectField('Max Depth:', choices=[('','--select--'),('','5'),('','20'),('','69'),('', '80')])
+    arch = SelectField('Model:', choices=[('','--select--'),('','Bagging (Recommended)'),('','LightGBM'),('','Random Forest'),('', 'XgBoost')])
     submit = SubmitField('Retrain Your Model')

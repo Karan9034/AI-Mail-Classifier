@@ -14,7 +14,7 @@ def cleanForTest():
         fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        for f in os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data')):
+        for f in sorted(os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data'))):
             if not f.endswith('.msg'):
                 continue
             msg = extract_msg.Message(os.path.join(os.getcwd(),'test-uploads','extracted-data', f))
