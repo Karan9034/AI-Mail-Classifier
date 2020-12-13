@@ -26,6 +26,15 @@
     <div class="bgc">
 	    <div class="container">
 	        <div class="row">
+	        	{% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for type, message in messages %}
+                            <div class="alert alert-{{ type }}">
+                            {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 	            <div class="col-sm-6 col-md-6 test-form">
 	                <h2>Upload Your Testing Data</h2>
 	                <form action="" id="testForm" method="POST" enctype="multipart/form-data">
@@ -51,10 +60,10 @@
 	                	<div>
 		                	<img class="img" src="../static/img.jpeg" alt="">
 		                </div>
-	                	{{ trainForm.learnRate.label }}<br>
-	                    {{ trainForm.learnRate }}<br>
-	                	{{ trainForm.epochs.label }}<br>
-	                    {{ trainForm.epochs }}<br>
+	                	{{ trainForm.threads.label }}<br>
+	                    {{ trainForm.threads }}<br>
+	                	{{ trainForm.depth.label }}<br>
+	                    {{ trainForm.depth }}<br>
 	                    <!-- <label for="algo" form="trainForm">Algorithm:</label><br>
 	                    <select name="algo" id="algo">
 	                        <option>--select--</option>

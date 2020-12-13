@@ -6,7 +6,7 @@ import re
 folders=['Retirements', 'Transfers', 'MDU']
 unzip = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
 rmzip = 'rm ./train-uploads/*.zip'
-rmmsg = 'rm ./train-uploads/extracted-data/*'
+rmmsg = 'rm -r ./train-uploads/extracted-data/*'
 
 def cleanForTrain():
     os.system(unzip)

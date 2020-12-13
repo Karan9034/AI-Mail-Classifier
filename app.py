@@ -39,11 +39,12 @@ def testntrain():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            Training()
-            return redirect(url_for('results', category='Transfers'))
+            Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
+            flash('Model Successfully Retrained! Go to the Testing page and to test the model', 'success')
+            return redirect(url_for('testntrain'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
-@app.route('/<string:category>', methods=['GET'])
+@app.route('/<string:category>')
 def results(category):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])

@@ -38,7 +38,7 @@ def Lgb(data,labels) :
     return model
 
 
-def Training(Data,model):
+def Training(Data,model='XgBoost'):
     data=pd.read_csv(Data,encoding='cp1252')
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
