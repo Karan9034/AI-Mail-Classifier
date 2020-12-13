@@ -16,7 +16,7 @@
                     <a href="{{ url_for('testntrain') }}">
                         <button type="button" class="btn btn-primary btn-lg">Train Test n Tune<!-- <span class="caret"></span> -->
                     </button></a>
-                    <a href="../test-uploads/model-output/result.csv" download> 
+                    <a href="{{ url_for('download') }}" download> 
                         <button type="button" class="btn btn-primary btn-lg">Download Result
                             </button></a>
                             <!-- 
@@ -48,19 +48,19 @@
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
                         {% if category=='Transfers' %}
-                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">{{ transfers }}</span> Transfers </a></li>
+                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='Transfers') }}"><span class="badge pull-right">{{ transfers }}</span> Transfers </a></li>
+                            <li><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
                         {% endif %}
                         {% if category=='Retirements' %}
-                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">{{ retirements }}</span>Retirements</a></li>
+                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
                         {% else %}
-                            <li><a href="{{ url_for('results', category='Retirements') }}"><span class="badge pull-right">{{ retirements }}</span>Retirements</a></li>
+                            <li><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
                         {% endif %}
                         {% if category=='MDU' %}
-                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">{{ mdu }}</span>MDU</a></li>
+                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"> MDU </a></li>
                         {% else %}
-                        <li><a href="{{ url_for('results', category='MDU') }}"><span class="badge pull-right">{{ mdu }}</span>MDU</a></li>
+                            <li><a href="{{ url_for('results', category='MDU') }}"> MDU </a></li>
                         {% endif %}
                     </ul>
                     <hr>
@@ -79,8 +79,8 @@
                     <!-- tab panes -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }}">
+                            {% for type, message in messages %}
+                                <div class="alert alert-{{ type }}">
                                 {{ message }}
                                 </div>
                             {% endfor %}

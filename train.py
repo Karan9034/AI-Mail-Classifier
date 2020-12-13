@@ -3,21 +3,23 @@ import extract_msg
 import csv
 import re
 
-folders = ['Retirements', 'Transfers', 'MDU']
-cmd = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
+folders=['Retirements', 'Transfers', 'MDU']
+unzip = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
+rmzip = 'rm ./train-uploads/*.zip'
+rmmsg = 'rm ./train-uploads/extracted-data/*'
 
 def cleanForTrain():
-    os.system(cmd)
-    with open(os.path.join(os.getcwd(), 'train-uploads','model-input','email.csv'), 'at') as file:
-        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted','Label']
+    os.system(unzip)
+    os.system(rmzip)
+    with open(os.path.join(os.getcwd(), 'test-uploads','model-input','training.csv'), 'wt') as file:
+        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted', 'Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        folders = os.listdir(os.path.join(os.getcwd(),'train-uploads','extracted-data'))
         for folder in folders:
             for f in os.listdir(os.path.join(os.getcwd(),'train-uploads','extracted-data', folder)):
                 if not f.endswith('.msg'):
                     continue
-                msg = extract_msg.Message(os.path.join(os.getcwd(),'test-uploads','extracted-data', f))
+                msg = extract_msg.Message(os.path.join(os.getcwd(),'train-uploads','extracted-data', folder, f))
                 msg_sender = msg.body
                 msg_date = msg.date
                 msg_subj = msg.subject
@@ -44,5 +46,5 @@ def cleanForTrain():
                 msg_message = ' '.join(re.split(" +",msg_message))
                 msg_message = ''.join(re.split("\r",msg_message))
 
-                writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label':''})
-                
+                writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label': folder})
+            os.system(rmmsg)

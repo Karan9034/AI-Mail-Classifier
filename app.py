@@ -1,5 +1,5 @@
 import os, secrets, csv
-from flask import Flask, request, render_template, url_for, flash, redirect, current_app
+from flask import Flask, request, render_template, url_for, flash, redirect, current_app, send_from_directory
 from form import TestForm, TrainForm
 from test import cleanForTest
 from train import cleanForTrain
@@ -29,20 +29,26 @@ def testntrain():
             else:
                 transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
-            flash("Transfers: "+transfers+" | Retirements: "+retirements+" | MDU: "+mdu, "success")
+            msg="Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
+            flash(msg, "success")
             return redirect(url_for('results', category='Transfers'))
         if trainForm.submit():
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            return redirect(url_for('results', category='Transfers',transfers=transfers,retirements=retirements,mdu=mdu))
+            Training()
+            return redirect(url_for('results', category='Transfers'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
 @app.route('/<string:category>', methods=['GET'])
-def results(category,transfers,retirements,mdu):
+def results(category):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
-        return render_template('results.html', category=category, reader=reader, transfers=transfers,retirements=retirements,mdu=mdu)
+        return render_template('results.html', category=category, reader=reader)
+
+@app.route('/results/download')
+def download():
+    return send_from_directory('./test-uploads/model-output', 'result.csv')
 
 if __name__=="__main__":
     app.run(debug=True)
