@@ -3,7 +3,7 @@ import extract_msg
 import csv
 import re
 
-unzip = 'unzip ./test-uploads/*.zip -d ./test-uploads/extracted-data'
+unzip = 'unzip -j ./test-uploads/*.zip -d ./test-uploads/extracted-data'
 rmzip = 'rm ./test-uploads/*.zip'
 rmmsg = 'rm ./test-uploads/extracted-data/*'
 
