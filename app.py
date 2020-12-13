@@ -12,8 +12,11 @@ app.config['SECRET_KEY'] = '18256fdc199f95f0cdac2b6ddbae9214'
 
 @app.route('/')
 @app.route('/home')
-def home():
-    return render_template('index.html')
+def home(category="Transfers"):
+    with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
+        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
+        return render_template('index.html', category=category, reader=reader)
+
 
 @app.route('/testntrain', methods=['GET','POST'])
 def testntrain():
