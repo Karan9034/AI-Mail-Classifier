@@ -17,21 +17,21 @@ nltk.download('wordnet')
 nltk.download('stopwords')
 
 def Xgboost(data,labels):
-    xgb = xgboost.XGBClassifier(max_depth=3,min_child_weight=3,gamma=0.2)
+    xgb = xgboost.XGBClassifier(max_depth=5,min_child_weight=5,gamma=0.3)
     model = xgb.fit(data,labels)
     filename = os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav')
     joblib.dump(model, filename)
     return model
 
 def Rfc(data,labels):
-    rfc = RandomForestClassifier(max_depth=90, min_samples_split=4, n_estimators=1000)
+    rfc = RandomForestClassifier(max_depth=80, min_samples_split=2, n_estimators=1200, min_samples_leaf=1)
     model = rfc.fit(data,labels)
     filename = os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav')
     joblib.dump(model, filename)
     return model
 
 def Lgb(data,labels) :
-    lgb = lightgbm.LGBMClassifier(max_depth=90, min_data=20, num_leaves=15)
+    lgb = lightgbm.LGBMClassifier(max_depth=5, num_leaves=40, min_child_samples=100, min_child_weight=0.1)
     model = lgb.fit(data,labels)
     filename = os.path.join(os.getcwd(),'test-uploads','model-output','lgb.sav')
     joblib.dump(model, filename)
@@ -185,10 +185,10 @@ def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
     pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
     transfers,retirements,mdu = 0,0,0
     for i in range(len(pred['Label'])):
-        if df.iloc[i,-1]=='Transfers':
+        if pred.iloc[i,-1]=='Transfers':
             transfers+=1
-        if df.iloc[i,-1]=='Retirements':
+        if pred.iloc[i,-1]=='Retirements':
             retirements+=1
-        if df.iloc[i,-1]=='MDU':
+        if pred.iloc[i,-1]=='MDU':
             mdu+=1
     return transfers,retirements,mdu
