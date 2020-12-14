@@ -11,7 +11,6 @@ import lightgbm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
-import nlpaug.augmenter.sentence as nas
 import nlpaug.augmenter.word as naw
 
 nltk.download('punkt')
@@ -44,42 +43,17 @@ def Training(Data,model='XgBoost'):
     data=pd.read_csv(Data,encoding='cp1252')
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
-    data = pd.DataFrame({'Body':sentences,'Label':labels})
-    ret_test = data.iloc[20:30,:]
-    tra_test = data.iloc[90:100,:]
-    mdu_test = data.iloc[180:191,:]
-    test_data = pd.concat((ret_test,tra_test,mdu_test),axis=0)
-    test_data=test_data.reset_index()
-    data = data.drop([20,21,22,23,24,25,26,27,28,29],axis=0)
-    data = data.drop([90,91,92,93,94,95,96,97,98,99],axis=0)
-    data = data.drop([180,181,182,183,184,185,186,187,188,189,190],axis=0)
-    data = data.reset_index()
-    test_data.reset_index()
-    test_data = test_data.drop('index',axis=1)
-    data = data.drop('index',axis=1)
-    sentences = data.Body.values.tolist()
-    labels = data.Label.values.tolist()
-    sentences_test = test_data.Body.values.tolist()
-    labels_test= test_data.Label.values.tolist()
-    aug4=naw.RandomWordAug()
-    sen_aug4=aug4.augment(sentences,n=len(sentences))
-    aug5=naw.SynonymAug()
-    sen_aug5=aug5.augment(sentences,n=len(sentences))
+    aug=naw.RandomWordAug()
+    sen_aug=aug.augment(sentences,n=len(sentences))
+    aug2=naw.SynonymAug()
+    sen_aug2=aug2.augment(sentences,n=len(sentences))
     sentences.extend(sen_aug4)
     sentences.extend(sen_aug5)
-    labels2 = labels.copy()
-    labels.extend(labels2)
-    labels.extend(labels2)
-    data = pd.DataFrame({'Body':sentences,'Label':labels})
-    for i in range(len(sentences)):
-      para=data.iloc[i,0]
-      para=nltk.sent_tokenize(para)
-      if len(para)<=1:
-        continue
-      random.shuffle(para)
-      para='. '.join(para)
-      sentences.append(para)
-      labels.append(data.iloc[i,1])
+    labels1=labels.copy()
+    labels.extend(labels1)
+    labels.extend(labels1)
+    sentences_test = sentences[-50:]
+    labels_test = labels[-50:]
     body_train=[]
     pc=PorterStemmer()
     for bb in sentences:
@@ -97,6 +71,7 @@ def Training(Data,model='XgBoost'):
         body_test.append(bb)
     tf = TfidfVectorizer()
     X_train = tf.fit_transform(body_train).toarray()
+    joblib.dump(tf,"tfidf.sav")
     X_test = tf.transform(body_test).toarray()
     if model == 'XgBoost':
         Model = Xgboost(X_train,labels)
@@ -112,66 +87,19 @@ def Training(Data,model='XgBoost'):
 
     return score
 
-def Processing_Train(Data,model) :
 
-    data=pd.read_csv(Data,encoding='cp1252')
-    sentences = data.Body.values.tolist()
-    labels = data.Label.values.tolist()
-    data = pd.DataFrame({'Body':sentences,'Label':labels})
-    aug4=naw.RandomWordAug()
-    sen_aug4=aug4.augment(sentences,n=len(sentences))
-    aug5=naw.SynonymAug()
-    sen_aug5=aug5.augment(sentences,n=len(sentences))
-    sentences.extend(sen_aug4)
-    sentences.extend(sen_aug5)
-    labels2 = labels.copy()
-    labels.extend(labels2)
-    labels.extend(labels2)
-    data = pd.DataFrame({'Body':sentences,'Label':labels})
-    for i in range(len(sentences)):
-      para=data.iloc[i,0]
-      para=nltk.sent_tokenize(para)
-      if len(para)<=1:
-        continue
-      random.shuffle(para)
-      para='. '.join(para)
-      sentences.append(para)
-      labels.append(data.iloc[i,1])
-    body_train=[]
-    pc=PorterStemmer()
-    for bb in sentences:
-        bb=bb.lower()
-        bb=bb.split()
-        bb=[pc.stem(word) for word in bb if word not in set(stopwords.words('english'))]
-        bb=' '.join(bb)
-        body_train.append(bb)
-    tf = TfidfVectorizer()
-    X_train = tf.fit_transform(body_train).toarray()
-    if model == 'XgBoost':
-        Model = Xgboost(X_train,labels)
-    elif model == 'RandomForestClassifier':
-        Model = Rfc(X_train,labels)
-    elif model == 'LightGBM':
-        Model = Lgb(X_train,labels)
-    elif model == 'Bagging':
-        Model1 = Xgboost(X_train,labels)
-        Model2 = Rfc(X_train,labels)
-        Model3 = Lgb(X_train,labels)
-    return tf
-
-def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
-    tf = Processing_Train(Training_Data, model)
+def Processing_Test (Testing_Data,model='Bagging'):
     data = pd.read_csv(Testing_Data,encoding='cp1252')
     sentences=list(data.Body.values)
     body_test=[]
     pc=PorterStemmer()
-
     for bb in sentences:
         bb=bb.lower()
         bb=bb.split()
         bb=[pc.stem(word) for word in bb if word not in set(stopwords.words('english'))]
         bb=' '.join(bb)
         body_test.append(bb)
+    tf = joblib.load("tfidf.sav")
     X_test = tf.transform(body_test)
     if model == 'XgBoost':
         Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav'))
