@@ -12,7 +12,7 @@ def cleanForTrain():
     os.system(unzip)
     os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','training.csv'), 'wt') as file:
-        fieldnames = ['Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted', 'Label']
+        fieldnames = ['Filename','Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted', 'Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for folder in folders:
@@ -46,5 +46,5 @@ def cleanForTrain():
                 msg_message = ' '.join(re.split(" +",msg_message))
                 msg_message = ''.join(re.split("\r",msg_message))
 
-                writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label': folder})
+                writer.writerow({'Filename': f,'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label': folder})
         os.system(rmmsg)

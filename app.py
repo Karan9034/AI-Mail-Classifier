@@ -32,7 +32,7 @@ def testntrain():
             else:
                 transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
-            msg="Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
+            msg = "Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
             flash(msg, "success")
             return redirect(url_for('results', category='Transfers'))
 
@@ -44,7 +44,8 @@ def testntrain():
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
             else:
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'))
-            flash('Model successfully retrained | Validation Accuracy: '+ str(score)[:3], 'success')
+            msg = 'Model successfully retrained with '+str(trainForm.threads.data)+' threads, max depth '+str(trainForm.depth.data)+', and '+str(trainForm.arch.data)+' model'
+            flash(msg, 'success')
             return redirect(url_for('testntrain'))
 
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
@@ -54,6 +55,12 @@ def results(category):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
         reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
         return render_template('results.html', category=category, reader=reader)
+
+@app.route('/email/<string:Filename>')
+def email(Filename):
+    with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
+        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
+        return render_template('email.html', Filename=Filename, reader=reader)
 
 @app.route('/results/download')
 def download():
