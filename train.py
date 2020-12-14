@@ -47,4 +47,4 @@ def cleanForTrain():
                 msg_message = ''.join(re.split("\r",msg_message))
 
                 writer.writerow({'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8'), 'Label': folder})
-            os.system(rmmsg)
+        os.system(rmmsg)

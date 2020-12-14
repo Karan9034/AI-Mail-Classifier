@@ -35,12 +35,16 @@ def testntrain():
             msg="Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
             flash(msg, "success")
             return redirect(url_for('results', category='Transfers'))
+
         if trainForm.submit():
-            f = request.files['testData']
+            f = request.files['trainData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
-            Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
-            flash('Model Successfully Retrained! Go to the Testing page and to test the model', 'success')
+            if trainForm.arch.data:
+                score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
+            else:
+                score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'))
+            flash('Model successfully retrained | Validation Accuracy: '+ str(score)[:3], 'success')
             return redirect(url_for('testntrain'))
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 

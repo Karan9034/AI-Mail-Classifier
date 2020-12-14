@@ -11,6 +11,8 @@ import lightgbm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+import nlpaug.augmenter.sentence as nas
+import nlpaug.augmenter.word as naw
 
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -59,7 +61,16 @@ def Training(Data,model='XgBoost'):
     labels = data.Label.values.tolist()
     sentences_test = test_data.Body.values.tolist()
     labels_test= test_data.Label.values.tolist()
-
+    aug4=naw.RandomWordAug()
+    sen_aug4=aug4.augment(sentences,n=len(sentences))
+    aug5=naw.SynonymAug()
+    sen_aug5=aug5.augment(sentences,n=len(sentences))
+    sentences.extend(sen_aug4)
+    sentences.extend(sen_aug5)
+    labels2 = labels.copy()
+    labels.extend(labels2)
+    labels.extend(labels2)
+    data = pd.DataFrame({'Body':sentences,'Label':labels})
     for i in range(len(sentences)):
       para=data.iloc[i,0]
       para=nltk.sent_tokenize(para)
@@ -99,7 +110,7 @@ def Training(Data,model='XgBoost'):
     score=accuracy_score(labels_test,pred)
     report=classification_report(labels_test,pred)
 
-    return matrix,score,report
+    return score
 
 def Processing_Train(Data,model) :
 
@@ -107,7 +118,16 @@ def Processing_Train(Data,model) :
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
     data = pd.DataFrame({'Body':sentences,'Label':labels})
-
+    aug4=naw.RandomWordAug()
+    sen_aug4=aug4.augment(sentences,n=len(sentences))
+    aug5=naw.SynonymAug()
+    sen_aug5=aug5.augment(sentences,n=len(sentences))
+    sentences.extend(sen_aug4)
+    sentences.extend(sen_aug5)
+    labels2 = labels.copy()
+    labels.extend(labels2)
+    labels.extend(labels2)
+    data = pd.DataFrame({'Body':sentences,'Label':labels})
     for i in range(len(sentences)):
       para=data.iloc[i,0]
       para=nltk.sent_tokenize(para)
@@ -145,6 +165,7 @@ def Processing_Test (Training_Data,Testing_Data,model='Bagging'):
     sentences=list(data.Body.values)
     body_test=[]
     pc=PorterStemmer()
+
     for bb in sentences:
         bb=bb.lower()
         bb=bb.split()
