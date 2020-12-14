@@ -294,4 +294,14 @@ img.logo {
 .btn {
   margin-bottom: 0.5vw;
 }
-div.alert{font-size: 15px}
+div.alert{
+  font-size: 15px;
+  font-weight: bold;
+}
+td a{
+  color: #FFF;
+}
+td a:hover{
+  color: #FFF;
+  text-decoration: none;
+}

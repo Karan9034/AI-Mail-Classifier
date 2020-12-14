@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{{ category }} | eMAIL — AI Mail Classifier</title>
+    <title>eMAIL — AI Mail Classifier</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -47,21 +47,9 @@
                 <!--left-->
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        {% if category=='Transfers' %}
-                            <li class="active"><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
-                        {% else %}
                             <li><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
-                        {% endif %}
-                        {% if category=='Retirements' %}
-                            <li class="active"><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
-                        {% else %}
                             <li><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
-                        {% endif %}
-                        {% if category=='MDU' %}
-                            <li class="active"><a href="{{ url_for('results', category='MDU') }}"> MDU </a></li>
-                        {% else %}
                             <li><a href="{{ url_for('results', category='MDU') }}"> MDU </a></li>
-                        {% endif %}
                     </ul>
                     <hr>
                 </aside>
@@ -89,11 +77,11 @@
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="inbox">
                             {% for row in reader %}
-                                {% if row['Filename'] == filename %}
+                                {% if row['uid'] == uid %}
                                     <h2>{{ row['Subject'] }}</h2>
                                     <p>{{ row['Date'] }}</p>
                                     <h3>From: {{ row['Sender'] }}</h3>
-                                    <p>{{ row['Body_Unformatted'] }}</p>
+                                    <p>{{ row['Body_Unformatted'][2:-1] }}</p>
                                 {% endif %}
                             {% endfor %}
                         </div>

@@ -8,10 +8,11 @@ rmzip = 'rm ./test-uploads/*.zip'
 rmmsg = 'rm ./test-uploads/extracted-data/*'
 
 def cleanForTest():
+    i = 1
     os.system(unzip)
     os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'wt') as file:
-        fieldnames = ['Filename','Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted']
+        fieldnames = ['Filename','uid', 'Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         for f in sorted(os.listdir(os.path.join(os.getcwd(),'test-uploads','extracted-data'))):
@@ -37,12 +38,12 @@ def cleanForTest():
             msg_message = re.sub('Cc *: (.*)\n','', msg_message)
             msg_message = re.sub('Sent *: (.*)\n','', msg_message)
             msg_message = re.sub('Subject *:','', msg_message)
-            msg_uformatted = re.sub('[^a-zA-z0-9@,\.]'," ",msg_message)
+            msg_uformatted = msg.body
             msg_message = re.sub('[^a-zA-z,\.]'," ",msg_message)
-
             msg_message = ' '.join(re.split("\n",msg_message))
             msg_message = ' '.join(re.split(" +",msg_message))
             msg_message = ''.join(re.split("\r",msg_message))
 
-            writer.writerow({'Filename': f,'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8')})
+            writer.writerow({'Filename': f, 'uid': str(i), 'Subject': msg_subj, 'Date': msg_date, 'Sender': msg_sender[0], 'Body': msg_message.encode('utf-8'), 'Body_Unformatted': msg_uformatted.encode('utf-8')})
+            i += 1
         os.system(rmmsg)

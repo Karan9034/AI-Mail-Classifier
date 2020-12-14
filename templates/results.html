@@ -92,18 +92,19 @@
                                 <tbody>
                                     <!-- inbox header -->
                                     {% for row in reader %}
-                                        {% if row['Label'] == category %}
-                                        <tr class="unread">
-                                            <a href="{{ url_for('email', Filename=row['Filename']) }}">
-                                                <td>
+                                    {% if row['Label'] == category %}
+                                       <tr class="unread">
+                                           <td>
+                                               <a href="{{ url_for('email', uid=row['uid']) }}">
                                                     <label>
                                                         <input type="checkbox">
                                                     </label> <span class="name">{{ row['Sender'] }}</span>
-                                                </td>
-                                                <td><span class="subject">{{ row['Subject'] }}</span> <small class="text-muted">- {{ row['Body'][:20] }}...</small></td>
+                                                </a></td>
+                                           <td>
+                                               <a href="{{ url_for('email', uid=row['uid']) }}"> 
+                                               <span class="subject">{{ row['Subject'] }}</span> <small class="text-muted">- {{ row['Body'][:20] }}...</small></a></td>
                                                 <td><span class="badge">{{ row['Date'] }}</span></td>
-                                            </a>
-                                        </tr>
+                                       </tr>
                                         {% endif %}
                                     {% endfor %}
                                 </tbody>

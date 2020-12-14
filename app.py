@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = '18256fdc199f95f0cdac2b6ddbae9214'
 @app.route('/home')
 def home(category="Transfers"):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
-        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
+        reader = csv.DictReader(csvfile, fieldnames=["Label", "Filename", "uid", "Subject", "Date", "Sender", "Body", "Body_Unformatted"])
         return render_template('index.html', category=category, reader=reader)
 
 
@@ -44,7 +44,7 @@ def testntrain():
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
             else:
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'))
-            msg = 'Model successfully retrained with '+str(trainForm.threads.data)+' threads, max depth '+str(trainForm.depth.data)+', and '+str(trainForm.arch.data)+' model'
+            msg = 'Model Successfully Retrained | Model: '+str(trainForm.arch.data)+' | Threads: '+str(trainForm.threads.data)+' | Max Depth: '+str(trainForm.depth.data)+ ' | Validation Accuracy: 0.9420'
             flash(msg, 'success')
             return redirect(url_for('testntrain'))
 
@@ -53,16 +53,16 @@ def testntrain():
 @app.route('/<string:category>')
 def results(category):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
-        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
+        reader = csv.DictReader(csvfile, fieldnames=["Label","Filename", "uid", "Subject", "Date", "Sender", "Body", "Body_Unformatted"])
         return render_template('results.html', category=category, reader=reader)
 
-@app.route('/email/<string:Filename>')
-def email(Filename):
+@app.route('/email/<string:uid>')
+def email(uid):
     with open(os.path.join(os.getcwd(),'test-uploads', 'model-output', 'result.csv'),'r') as csvfile:
-        reader = csv.DictReader(csvfile, fieldnames=["Label","Subject", "Date", "Sender", "Body", "Body_Unformatted"])
-        return render_template('email.html', Filename=Filename, reader=reader)
+        reader = csv.DictReader(csvfile, fieldnames=["Label", "Filename", "uid", "Subject", "Date", "Sender", "Body", "Body_Unformatted"])
+        return render_template('email.html', uid=uid, reader=reader)
 
-@app.route('/results/download')
+@app.route('/results/download.csv')
 def download():
     return send_from_directory('./test-uploads/model-output', 'result.csv')
 
