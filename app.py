@@ -23,20 +23,20 @@ def testntrain():
     testForm = TestForm()
     trainForm = TrainForm()
     if request.method == 'POST':
-        if testForm.submit():
+        if testForm.testSubmit.data:
             f = request.files['testData']
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
             if testForm.arch.data:
-                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'), testForm.arch.data)
+                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'), testForm.arch.data)
             else:
-                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
+                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
             msg="Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
             flash(msg, "success")
             return redirect(url_for('results', category='Transfers'))
 
-        if trainForm.submit():
+        if trainForm.trainSubmit.data:
             f = request.files['trainData']
             f.save(os.path.join(os.getcwd(), 'train-uploads', secure_filename(f.filename)))
             cleanForTrain()
@@ -46,6 +46,7 @@ def testntrain():
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'))
             flash('Model successfully retrained | Validation Accuracy: '+ str(score)[:3], 'success')
             return redirect(url_for('testntrain'))
+
     return render_template('testntrain.html', testForm=testForm, trainForm=trainForm)
 
 @app.route('/<string:category>')

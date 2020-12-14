@@ -39,7 +39,7 @@ def Lgb(data,labels) :
     return model
 
 
-def Training(Data,model='XgBoost'):
+def Training(Data,model='Bagging'):
     data=pd.read_csv(Data,encoding='cp1252')
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
@@ -47,8 +47,8 @@ def Training(Data,model='XgBoost'):
     sen_aug=aug.augment(sentences,n=len(sentences))
     aug2=naw.SynonymAug()
     sen_aug2=aug2.augment(sentences,n=len(sentences))
-    sentences.extend(sen_aug4)
-    sentences.extend(sen_aug5)
+    sentences.extend(sen_aug)
+    sentences.extend(sen_aug2)
     labels1=labels.copy()
     labels.extend(labels1)
     labels.extend(labels1)
@@ -71,7 +71,7 @@ def Training(Data,model='XgBoost'):
         body_test.append(bb)
     tf = TfidfVectorizer()
     X_train = tf.fit_transform(body_train).toarray()
-    joblib.dump(tf,"tfidf.sav")
+    joblib.dump(tf,os.path.join(os.getcwd(),'test-uploads','model-output','tfidf.sav'))
     X_test = tf.transform(body_test).toarray()
     if model == 'XgBoost':
         Model = Xgboost(X_train,labels)
@@ -79,7 +79,28 @@ def Training(Data,model='XgBoost'):
         Model = Rfc(X_train,labels)
     elif model == 'LightGBM':
         Model = Lgb(X_train,labels)
-    pred = Model.predict(X_test)
+    elif model == 'Bagging':
+        Model1 = Xgboost(X_train, labels)
+        Model2 = Rfc(X_train, labels)
+        Model3 = Lgb(X_train, labels)
+    if model == 'Bagging':
+        pred1 = Model1.predict(X_test)
+        pred2 = Model2.predict(X_test)
+        pred3 = Model3.predict(X_test)
+        pred=[]
+        for i in range(len(pred1)):
+            if pred1[i]==pred2[i] and pred1[i]==pred3[i]:
+                pred.append(pred1[i])
+            elif pred1[i]==pred2[i]:
+                pred.append(pred1[i])
+            elif pred2[i]==pred3[i]:
+                pred.append(pred2[i])
+            elif pred1[i]==pred3[i]:
+                pred.append(pred1[i])
+            else:
+                pred.append(pred2[i])
+    else:
+        pred = Model.predict(X_test)
 
     matrix=confusion_matrix(labels_test,pred)
     score=accuracy_score(labels_test,pred)
@@ -99,8 +120,8 @@ def Processing_Test (Testing_Data,model='Bagging'):
         bb=[pc.stem(word) for word in bb if word not in set(stopwords.words('english'))]
         bb=' '.join(bb)
         body_test.append(bb)
-    tf = joblib.load("tfidf.sav")
-    X_test = tf.transform(body_test)
+    tf = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','tfidf.sav'))
+    X_test = tf.transform(body_test).toarray()
     if model == 'XgBoost':
         Model = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav'))
     elif model == 'RandomForestClassifier':
@@ -114,7 +135,7 @@ def Processing_Test (Testing_Data,model='Bagging'):
     if model == 'Bagging':
         pred1 = Model1.predict(X_test)
         pred2 = Model2.predict(X_test)
-        pred3 = Model2.predict(X_test)
+        pred3 = Model3.predict(X_test)
         pred=[]
         for i in range(len(pred1)):
             if pred1[i]==pred2[i] and pred1[i]==pred3[i]:
@@ -126,7 +147,7 @@ def Processing_Test (Testing_Data,model='Bagging'):
             elif pred1[i]==pred3[i]:
                 pred.append(pred1[i])
             else:
-                pred.append(pred2[i])
+                pred.append(pred3[i])
     else:
         pred = Model.predict(X_test)
         

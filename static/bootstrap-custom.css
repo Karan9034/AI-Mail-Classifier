@@ -278,6 +278,7 @@ button a{
 .nav-pills li{
   background-color: #FFF;
   color: #000;
+  font-weight: bold;
 }
 img.logo {
   width: 25%;
