@@ -12,6 +12,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
 import nlpaug.augmenter.word as naw
+from simpletransformers.classification import ClassificationModel
 
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -38,22 +39,55 @@ def Lgb(data,labels) :
     joblib.dump(model, filename)
     return model
 
+def Distilbert(data,labels):
+    df = pd.DataFrame({'Body':data,'Label':labels})
+    for i in range(len(df.Body.values)):
+        if df.iloc[i,1] == 'Retirements':
+            df.iloc[i,1] = 0
+        elif df.iloc[i,1] == 'MDU':
+            df.iloc[i,1] = 1
+        elif df.iloc[i,1] == 'Transfers':
+            df.iloc[i,1] = 2
+    model=ClassificationModel('distilbert','distilbert-base-cased',num_labels=3,use_cuda=False,args={'learning_rate':1e-5, 'num_train_epochs': 6, 	
+    'reprocess_input_data': True, 'overwrite_output_dir': True, "best_model_dir": "outputs/"})
+    model.train_model(df)
+    return model
 
 def Training(Data,model='Bagging'):
     data=pd.read_csv(Data,encoding='cp1252')
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
-    aug=naw.RandomWordAug()
+    aug=naw.AntonymAug()
     sen_aug=aug.augment(sentences,n=len(sentences))
-    aug2=naw.SynonymAug()
+    aug2=naw.SplitAug()
     sen_aug2=aug2.augment(sentences,n=len(sentences))
+    aug3=naw.RandomWordAug()
+    sen_aug3=aug3.augment(sentences,n=len(sentences))
+    aug4=naw.SynonymAug()
+    sen_aug4=aug4.augment(sentences,n=len(sentences))
     sentences.extend(sen_aug)
     sentences.extend(sen_aug2)
+    sentences.extend(sen_aug3)
+    sentences.extend(sen_aug4)
     labels1=labels.copy()
     labels.extend(labels1)
     labels.extend(labels1)
+    labels.extend(labels1)
+    labels.extend(labels1)
+    if model == 'DistilBERT':
+        for i in range(len(sentences)):
+          para=sentences[i]
+          para=nltk.sent_tokenize(para)
+          if len(para)<=1:
+            continue
+          random.shuffle(para)
+          para='. '.join(para)
+          sentences.append(para)
+          labels.append(labels[i])
     sentences_test = sentences[-50:]
     labels_test = labels[-50:]
+    if model == 'DistilBERT':
+        Model = Distilbert(sentences,labels)
     body_train=[]
     pc=PorterStemmer()
     for bb in sentences:
@@ -109,10 +143,11 @@ def Training(Data,model='Bagging'):
     return score
 
 
-def Processing_Test (Testing_Data,model='Bagging'):
+def Processing_Test (Testing_Data,model='DistilBERT'):
     data = pd.read_csv(Testing_Data,encoding='cp1252')
     sentences=list(data.Body.values)
     body_test=[]
+    x_test = sentences.copy()
     pc=PorterStemmer()
     for bb in sentences:
         bb=bb.lower()
@@ -132,6 +167,9 @@ def Processing_Test (Testing_Data,model='Bagging'):
         Model1 = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','xgboost.sav'))
         Model2 = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav'))
         Model3 = joblib.load(os.path.join(os.getcwd(),'test-uploads','model-output','lgb.sav'))
+    elif model == 'DistilBERT':
+        Model = ClassificationModel('distilbert',os.path.join(os.getcwd(),'models','outputs'))
+
     if model == 'Bagging':
         pred1 = Model1.predict(X_test)
         pred2 = Model2.predict(X_test)
@@ -148,9 +186,20 @@ def Processing_Test (Testing_Data,model='Bagging'):
                 pred.append(pred1[i])
             else:
                 pred.append(pred3[i])
+    elif model == 'DistilBERT':
+        pred1,_ = Model.predict(x_test)
     else:
         pred = Model.predict(X_test)
-        
+    if model == 'DistilBERT':
+        pred = []
+        for i in pred1:
+            if i==2:
+                i = 'Transfers'
+            elif i==0:
+                i = 'Retirements'
+            elif i==1:
+                i = 'MDU'
+            pred.append(i)
     pred = pd.DataFrame({'Label': pred})
     pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
     transfers,retirements,mdu = 0,0,0
