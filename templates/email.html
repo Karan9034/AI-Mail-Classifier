@@ -50,6 +50,7 @@
                 <aside class="col-sm-3 col-md-2">
                     <ul class="nav nav-pills nav-stacked">
                             <li><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
+                            <li><a href="{{ url_for('results', category='Death') }}"> Death </a></li> 
                             <li><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
                             <li><a href="{{ url_for('results', category='MDU') }}"> MDU </a></li>
                     </ul>
@@ -77,13 +78,13 @@
                         {% endif %}
                     {% endwith %} -->
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="inbox">
+                        <div class="tab-pane fade in active mail" id="inbox">
                             {% for row in reader %}
-                                {% if row['uid'] == uid %}
-                                    <h2>{{ row['Subject'] }}</h2>
-                                    <p>{{ row['Date'] }}</p>
-                                    <h3>From: {{ row['Sender'] }}</h3>
-                                    <p>{{ row['Body_Unformatted'][2:-1] }}</p>
+                            {% if row['uid'] == uid %}
+                                    <h4 class='badge date'>{{ row['Date'] }}</h4> 
+                                    <h2 class='subject_in_mail'>{{ row['Subject'] }}</h2>
+                                    <h4 class='sender'>From: {{ row['Sender'] }}</h4>
+                                    <p class='body'>{{ row['Body_Unformatted'][2:-1] }}</p>
                                 {% endif %}
                             {% endfor %}
                         </div>

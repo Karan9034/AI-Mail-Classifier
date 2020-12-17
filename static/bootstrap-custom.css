@@ -1,5 +1,7 @@
 /* CSS used here will be applied after bootstrap.css */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 .nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
 .tab-pane .list-group-item:first-child {border-top-right-radius: 0px;border-top-left-radius: 0px;}
@@ -304,4 +306,50 @@ td a{
 td a:hover{
   color: #FFF;
   text-decoration: none;
+}
+h2.subject_in_mail{
+  color: #000;
+  margin-bottom: 2vw;
+  font-weight: bold;
+  padding-left: 1vw;
+}
+h4.sender{
+  color: #FFF;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Quicksand';
+  margin-left: 1vw;
+  margin-right: 1vw;
+  margin-bottom: 2vw;
+}
+h4.date{
+  background-color: #D08770;
+  float: right;
+  font-size: 15px;
+  margin-right: 2vw;
+  margin-top: 0.8vw;
+}
+p.body{
+  color: #FFF;
+  font-size: 15px;
+  font-family: 'Roboto';
+  font-weight: 600;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  
+}
+.subject_in_mail{
+  background-color: #FFF;
+  border-radius: 10px;
+  border-color: #000;
+  border-width: 1px;
+  padding: 8px;
+  font-family: 'Quicksand';
+}
+.mail{
+  background-color: #D08770;
+  border-radius: 30px;
+  border-width: 2px;
+  border-color: #000;
+  padding-bottom: 2vw;
 }
