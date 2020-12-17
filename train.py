@@ -3,7 +3,6 @@ import extract_msg
 import csv
 import re
 
-folders=['Retirements', 'Transfers', 'MDU']
 unzip = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
 rmzip = 'rm ./train-uploads/*.zip'
 rmmsg = 'rm -r ./train-uploads/extracted-data/*'
@@ -16,7 +15,7 @@ def cleanForTrain():
         fieldnames = ['Filename', 'uid', 'Subject', 'Date', 'Sender', 'Body', 'Body_Unformatted', 'Label']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
-        for folder in folders:
+        for folder in os.listdir(os.path.join(os.getcwd(), 'train-uploads', 'extracted-data')):
             for f in os.listdir(os.path.join(os.getcwd(),'train-uploads','extracted-data', folder)):
                 if not f.endswith('.msg'):
                     continue
