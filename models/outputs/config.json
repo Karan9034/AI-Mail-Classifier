@@ -11,13 +11,15 @@
   "id2label": {
     "0": "LABEL_0",
     "1": "LABEL_1",
-    "2": "LABEL_2"
+    "2": "LABEL_2",
+    "3": "LABEL_3"
   },
   "initializer_range": 0.02,
   "label2id": {
     "LABEL_0": 0,
     "LABEL_1": 1,
-    "LABEL_2": 2
+    "LABEL_2": 2,
+    "LABEL_3": 3
   },
   "max_position_embeddings": 512,
   "model_type": "distilbert",

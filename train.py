@@ -24,15 +24,6 @@ def cleanForTrain():
                 msg_date = msg.date
                 msg_subj = msg.subject
                 msg_message = msg.body
-                # fh = open(os.path.join(folder, f), 'a+', encoding='utf8', errors='ignore')
-                # for line in fh.read():
-                #     line = re.sub('[^a-zA-z]'," ",line)
-                #     if 'From:' not in line and 'To:' not in line and 'Cc:' not in line and 'Cc :' not in line and 'To :' not in line and 'From :' not in line and 'Sent:' not in line and 'Sent :' not in line:
-                #         fh.write(line)
-                #     else:
-                #         continue
-                # fh.close()
-
                 msg_sender = re.findall('From *: (.+)\n', msg_sender)
                 msg_message = re.sub('From *: (.*)\n','', msg_message)
                 msg_message = re.sub('To *: (.*)\n','', msg_message)

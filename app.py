@@ -1,4 +1,4 @@
-import os, secrets, csv
+import os, secrets, csv, uuid
 from flask import Flask, request, render_template, url_for, flash, redirect, current_app, send_from_directory
 from form import TestForm, TrainForm
 from test import cleanForTest
@@ -8,7 +8,7 @@ from models.final import Processing_Test, Training
 
 
 app=Flask(__name__)
-app.config['SECRET_KEY'] = '18256fdc199f95f0cdac2b6ddbae9214'
+app.config['SECRET_KEY'] = str(uuid.uuid4())
 
 @app.route('/')
 @app.route('/home')

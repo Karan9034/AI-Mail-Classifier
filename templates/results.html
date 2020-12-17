@@ -55,9 +55,9 @@
                             <li><a href="{{ url_for('results', category='Transfers') }}"> Transfers </a></li>
                             {% endif %}
                         {% if category=='Death' %}
-                            <li class="active"><a href="{{ url_for('home', category='Death') }}"> Death </a></li>
+                            <li class="active"><a href="{{ url_for('results', category='Death') }}"> Death </a></li>
                         {% else %}
-                            <li><a href="{{ url_for('home', category='Death') }}"> Death </a></li>
+                            <li><a href="{{ url_for('results', category='Death') }}"> Death </a></li>
                         {% endif %}
                         {% if category=='Retirements' %}
                             <li class="active"><a href="{{ url_for('results', category='Retirements') }}"> Retirements </a></li>
