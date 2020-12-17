@@ -28,11 +28,11 @@ def testntrain():
             f.save(os.path.join(os.getcwd(), 'test-uploads', secure_filename(f.filename)))
             cleanForTest()
             if testForm.arch.data:
-                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'), testForm.arch.data)
+                transfers,retirements,mdu,death = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'), testForm.arch.data)
             else:
-                transfers,retirements,mdu = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
+                transfers,retirements,mdu,death = Processing_Test(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'testing.csv'))
             os.system('paste ./test-uploads/model-output/pred.csv ./test-uploads/model-input/testing.csv -d "," > ./test-uploads/model-output/result.csv')
-            msg = "Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)
+            msg = "Transfers: "+str(transfers)+" | Retirements: "+str(retirements)+" | MDU: "+str(mdu)+" | Death: "+str(death)
             flash(msg, "success")
             return redirect(url_for('results', category='Transfers'))
 

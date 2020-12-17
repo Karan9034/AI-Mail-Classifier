@@ -125,14 +125,14 @@ def Xgboost(data,labels):
     return model
 
 def Rfc(data,labels):
-    rfc = RandomForestClassifier(max_depth=80, min_samples_split=2, n_estimators=1200, min_samples_leaf=1)
+    rfc = RandomForestClassifier(max_depth=20, min_samples_split=12, n_estimators=1200, min_samples_leaf=5)
     model = rfc.fit(data,labels)
     filename = os.path.join(os.getcwd(),'test-uploads','model-output','rfc.sav')
     joblib.dump(model, filename)
     return model
 
 def Lgb(data,labels) :
-    lgb = lightgbm.LGBMClassifier(max_depth=5, num_leaves=40, min_child_samples=100, min_child_weight=0.1)
+    lgb = lightgbm.LGBMClassifier(reg_alpha=7, reg_lambda=5, subsample=0.7, colsample_bytree=0.4, num_leaves=50, min_child_samples=100, min_child_weight=0.1)
     model = lgb.fit(data,labels)
     filename = os.path.join(os.getcwd(),'test-uploads','model-output','lgb.sav')
     joblib.dump(model, filename)
@@ -147,7 +147,9 @@ def Distilbert(data,labels):
             df.iloc[i,1] = 1
         elif df.iloc[i,1] == 'Transfers':
             df.iloc[i,1] = 2
-    model=ClassificationModel('distilbert','distilbert-base-cased',num_labels=3,use_cuda=False,args={'learning_rate':1e-5, 'num_train_epochs': 6, 	
+        elif df.iloc[i,1] == 'Death':
+            df.iloc[i,1] = 3
+    model=ClassificationModel('distilbert','distilbert-base-cased',num_labels=4,use_cuda=False,args={'learning_rate':1e-5, 'num_train_epochs': 6,
     'reprocess_input_data': True, 'overwrite_output_dir': True, "best_model_dir": "outputs/"})
     model.train_model(df)
     return model
@@ -285,10 +287,12 @@ def Processing_Test (Testing_Data,model='Bagging'):
                 i = 'Retirements'
             elif i==1:
                 i = 'MDU'
+            elif i==3:
+                i = 'Death'
             pred.append(i)
     pred = pd.DataFrame({'Label': pred})
     pred.to_csv(os.path.join(os.getcwd(),'test-uploads','model-output',"pred.csv"),index=False)
-    transfers,retirements,mdu = 0,0,0
+    transfers,retirements,mdu,death = 0,0,0,0
     for i in range(len(pred['Label'])):
         if pred.iloc[i,-1]=='Transfers':
             transfers+=1
@@ -296,4 +300,6 @@ def Processing_Test (Testing_Data,model='Bagging'):
             retirements+=1
         if pred.iloc[i,-1]=='MDU':
             mdu+=1
-    return transfers,retirements,mdu
+        if pred.iloc[i,-1]=='Death':
+            death+=1
+    return transfers,retirements,mdu,death
