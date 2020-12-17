@@ -44,7 +44,7 @@ def testntrain():
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'), trainForm.arch.data)
             else:
                 score = Training(os.path.join(os.getcwd(), 'test-uploads', 'model-input', 'training.csv'))
-            msg = 'Model Successfully Retrained | Model: '+str(trainForm.arch.data)+' | Threads: '+str(trainForm.threads.data)+' | Max Depth: '+str(trainForm.depth.data)+ ' | Validation Accuracy: 0.9420'
+            msg = 'Model Successfully Retrained | Model: '+str(trainForm.arch.data)+' | Threads: '+str(trainForm.threads.data)+' | Max Depth: '+str(trainForm.depth.data)
             flash(msg, 'success')
             return redirect(url_for('testntrain'))
 

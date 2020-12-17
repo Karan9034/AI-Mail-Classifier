@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import numpy as np
 import nltk, random
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords,wordnet
 from nltk.stem import PorterStemmer
 import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,9 +14,108 @@ from sklearn.metrics import classification_report,confusion_matrix,accuracy_scor
 import nlpaug.augmenter.word as naw
 from simpletransformers.classification import ClassificationModel
 
+
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
+def get_synonyms(word):
+    """
+    Get synonyms of a word
+    """
+    synonyms = set()
+
+    for syn in wordnet.synsets(word):
+        for l in syn.lemmas():
+            synonym = l.name().replace("_", " ").replace("-", " ").lower()
+            synonym = "".join([char for char in synonym if char in ' qwertyuiopasdfghjklzxcvbnm'])
+            synonyms.add(synonym)
+
+    if word in synonyms:
+        synonyms.remove(word)
+
+    return list(synonyms)
+
+def synonym_replacement(words, n):
+
+    words = words.split()
+
+    new_words = words.copy()
+    random_word_list = list(set([word for word in words if word not in set(stopwords.words('english'))]))
+    random.shuffle(random_word_list)
+    num_replaced = 0
+
+    for random_word in random_word_list:
+        synonyms = get_synonyms(random_word)
+
+        if len(synonyms) >= 1:
+            synonym = random.choice(list(synonyms))
+            new_words = [synonym if word == random_word else word for word in new_words]
+            num_replaced += 1
+
+        if num_replaced >= n: #only replace up to n words
+            break
+
+    sentence = ' '.join(new_words)
+
+    return sentence
+
+def swap_word(new_words):
+
+    random_idx_1 = random.randint(0, len(new_words)-1)
+    random_idx_2 = random_idx_1
+    counter = 0
+
+    while random_idx_2 == random_idx_1:
+        random_idx_2 = random.randint(0, len(new_words)-1)
+        counter += 1
+
+        if counter > 3:
+            return new_words
+
+    new_words[random_idx_1], new_words[random_idx_2] = new_words[random_idx_2], new_words[random_idx_1]
+    return new_words
+
+def random_swap(words, n):
+
+    words = words.split()
+    new_words = words.copy()
+
+    for _ in range(n):
+        new_words = swap_word(new_words)
+    if len(new_words) == 1:
+        return new_words[0]
+    else:
+        sentence = ' '.join(new_words)
+
+
+    return sentence
+
+def add_word(new_words):
+
+    synonyms = []
+    counter = 0
+
+    while len(synonyms) < 1:
+        random_word = new_words[random.randint(0, len(new_words)-1)]
+        synonyms = get_synonyms(random_word)
+        counter += 1
+        if counter >= 10:
+            return
+
+    random_synonym = synonyms[0]
+    random_idx = random.randint(0, len(new_words)-1)
+    new_words.insert(random_idx, random_synonym)
+
+def random_insertion(words, n):
+
+    words = words.split()
+    new_words = words.copy()
+
+    for _ in range(n):
+        add_word(new_words)
+
+    sentence = ' '.join(new_words)
+    return sentence
 
 def Xgboost(data,labels):
     xgb = xgboost.XGBClassifier(max_depth=5,min_child_weight=5,gamma=0.3)
@@ -57,33 +156,20 @@ def Training(Data,model='Bagging'):
     data=pd.read_csv(Data,encoding='cp1252')
     sentences = data.Body.values.tolist()
     labels = data.Label.values.tolist()
-    aug=naw.AntonymAug()
-    sen_aug=aug.augment(sentences,n=len(sentences))
-    aug2=naw.SplitAug()
-    sen_aug2=aug2.augment(sentences,n=len(sentences))
-    aug3=naw.RandomWordAug()
-    sen_aug3=aug3.augment(sentences,n=len(sentences))
-    aug4=naw.SynonymAug()
-    sen_aug4=aug4.augment(sentences,n=len(sentences))
-    sentences.extend(sen_aug)
-    sentences.extend(sen_aug2)
-    sentences.extend(sen_aug3)
-    sentences.extend(sen_aug4)
-    labels1=labels.copy()
-    labels.extend(labels1)
-    labels.extend(labels1)
-    labels.extend(labels1)
-    labels.extend(labels1)
-    if model == 'DistilBERT':
-        for i in range(len(sentences)):
-          para=sentences[i]
-          para=nltk.sent_tokenize(para)
-          if len(para)<=1:
-            continue
-          random.shuffle(para)
-          para='. '.join(para)
-          sentences.append(para)
-          labels.append(labels[i])
+    sen = []
+    lab = []
+    for i in range(0,5):
+        for j in range(len(sentences)):
+            words = nltk.word_tokenize(sentences[j])
+            n = int(0.05*len(words))
+            sen.append(synonym_replacement(sentences[j],n))
+            sen.append(random_swap(sentences[j],n))
+            sen.append(random_insertion(sentences[j],n))
+            lab.append(labels[j])
+            lab.append(labels[j])
+            lab.append(labels[j])
+    sentences.extend(sen)
+    labels.extend(lab)
     sentences_test = sentences[-50:]
     labels_test = labels[-50:]
     if model == 'DistilBERT':
@@ -143,7 +229,7 @@ def Training(Data,model='Bagging'):
     return score
 
 
-def Processing_Test (Testing_Data,model='DistilBERT'):
+def Processing_Test (Testing_Data,model='Bagging'):
     data = pd.read_csv(Testing_Data,encoding='cp1252')
     sentences=list(data.Body.values)
     body_test=[]
