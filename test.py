@@ -3,12 +3,14 @@ import extract_msg
 import csv
 import re
 
+mkdir = 'mkdir ./test-uploads/extracted-data'
 unzip = 'unzip -j ./test-uploads/*.zip -d ./test-uploads/extracted-data'
 rmzip = 'rm ./test-uploads/*.zip'
-rmmsg = 'rm ./test-uploads/extracted-data/*'
+rmmsg = 'rm -rf ./test-uploads/extracted-data/*'
 
 def cleanForTest():
     i = 1
+    os.system(mkdir)
     os.system(unzip)
     os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','testing.csv'), 'wt') as file:
