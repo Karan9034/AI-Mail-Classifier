@@ -10,6 +10,7 @@ rmmsg = 'rm -r ./train-uploads/extracted-data/*'
 
 def cleanForTrain():
     i = 1
+    os.system(mkdir)
     os.system(unzip)
     os.system(rmzip)
     with open(os.path.join(os.getcwd(), 'test-uploads','model-input','training.csv'), 'wt') as file:
