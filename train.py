@@ -3,6 +3,7 @@ import extract_msg
 import csv
 import re
 
+mkdir = 'mkdir ./train-uploads ./train-uploads/extracted-data'
 unzip = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
 rmzip = 'rm ./train-uploads/*.zip'
 rmmsg = 'rm -r ./train-uploads/extracted-data/*'
