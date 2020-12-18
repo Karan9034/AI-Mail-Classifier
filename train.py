@@ -6,7 +6,7 @@ import re
 mkdir = 'mkdir ./train-uploads ./train-uploads/extracted-data'
 unzip = 'unzip ./train-uploads/*.zip -d ./train-uploads/extracted-data'
 rmzip = 'rm ./train-uploads/*.zip'
-rmmsg = 'rm -r ./train-uploads/extracted-data/*'
+rmmsg = 'rm -r ./train-uploads/'
 
 def cleanForTrain():
     i = 1
